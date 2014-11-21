@@ -1,0 +1,19 @@
+package PCA_Shutoff_Process
+public
+	with PCA_Shutoff;
+	with PCA_Shutoff_Clinician;
+	with PCA_Shutoff_Display;
+	
+	abstract PCA_Shutoff_Process
+	end PCA_Shutoff_Process;
+	
+	abstract implementation PCA_Shutoff_Process.imp
+	subcomponents
+		app : system PCA_Shutoff::PCA_Shutoff_System.imp;
+		display : process PCA_Shutoff_Display::ICEpcaDisplayProcess.imp;
+		clinician : abstract PCA_Shutoff_Clinician::PCA_Shutoff_Clinician;
+	connections
+		observe : data access clinician.look -> display.show;
+	end PCA_Shutoff_Process.imp;
+	
+end PCA_Shutoff_Process;

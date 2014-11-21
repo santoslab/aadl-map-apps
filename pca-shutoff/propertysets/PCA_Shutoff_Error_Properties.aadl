@@ -1,0 +1,68 @@
+property set PCA_Shutoff_Error_Properties is
+with EMV2, MAP_Error_Properties;
+
+	-- See http://www.ncbi.nlm.nih.gov/pubmed/8457044
+	PulseOximeterFailure : constant EMV2::DistributionSpecification => [ProbabilityValue => 0.025; Distribution => Fixed;];
+	PulseOximiterFailDetectablyHigh : constant aadlreal => 0.375;
+	PulseOximiterFailDetectablyLow : constant aadlreal => 0.125;
+	PulseOximiterFailUndetectablyHigh : constant aadlreal => 0.375;
+	PulseOximiterFailUndetectablyLow : constant aadlreal => 0.125;
+
+	Context1 : constant MAP_Error_Properties::Context => 
+	"A 49 year old woman underwent an uneventful total abdominal hysterectomy and bilateral salpingo-oophorectomy. Postoperatively, the patient complained of severe pain and received intravenous morphine sulfate in small increments. She began receiving a continuous infusion of morphine via a patient controlled analgesia (PCA) infusion pump. A few hours after leaving the post anesthesia care unit (PACU) and arriving on the floor, she was found pale with shallow breathing, a faint pulse, and pinpoint pupils. The nursing staff called a \"code,\" and the patient was resuscitated and transferred to the intensive care unit on a respirator. Based on family wishes, life support was withdrawn and the patient died. Review of the case by providers implicated a PCA overdose. While on the PCA infusion pump, the patient is monitored with a respiration rate monitor and a pulse oximeter. If physiological parameters move outside the pre-determined range, the infusion can be stopped and alarms sent to notify the clinical staff and restart the infusion if appropriate. The use of two independent physiological measurements of respiratory function (oxygen saturation and respiratory rate) enables a smart monitor to optimize sensitivity to detecting respiratory compromise while reducing false alarms.";
+
+	Assumption1 : constant MAP_Error_Properties::Assumption =>
+	"The app is unaware of bolus requests, that is, the app can request the pump to either normally or minimally (KVO)";
+
+	KVO : constant MAP_Error_Properties::Abbreviation => [
+		Full => "Keep Vein Open";
+		Definition => "A minimal speed for the PCA pump, since setting the flow rate to zero could cause problems.";
+	];
+	
+	VTBI : constant MAP_Error_Properties::Abbreviation => [
+		Full => "Volume to be infused";
+		Definition => "The amount of a drug (at a given concentration) to be infused over some period of time.";
+	];
+
+	AL1 : constant MAP_Error_Properties::Accident_Level => [
+		Level => 1;
+		Description => "Death or serious injury to a human";
+	];
+	
+	A1 : constant MAP_Error_Properties::Accident => [
+		Number => 1;
+		Description => "Patient is killed or seriously injured.";
+		Level => PCA_Shutoff_Error_Properties::AL1;
+	];
+	
+	H1 : constant MAP_Error_Properties::Hazard => [
+		Number => 1;
+		Description => "Commands for dosage exceeding the patient’s tolerance are sent to the pump.";
+		Accident => PCA_Shutoff_Error_Properties::A1;
+	];
+	
+	H2 : constant MAP_Error_Properties::Hazard => [
+		Number => 2;
+		Description => "Incorrect information is sent to the display.";
+		Accident => PCA_Shutoff_Error_Properties::A1;
+	];
+	
+	C1 : constant MAP_Error_Properties::Constraint => [
+		Number => 1;
+		Description => "The app must command the pump to stop if the patient’s vital signs indicate over-infusion.";
+		Hazard => PCA_Shutoff_Error_Properties::H1;
+	];
+	
+	C2 : constant MAP_Error_Properties::Constraint => [
+		Number => 2;
+		Description => "The app must inform the display of the status of the patient’s vital signs.";
+		Hazard => PCA_Shutoff_Error_Properties::H2;
+	];
+	
+	C3 : constant MAP_Error_Properties::Constraint => [
+		Number => 3;
+		Description => "The app must inform the display of the pump command status.";
+		Hazard => PCA_Shutoff_Error_Properties::H2;
+	];
+	
+end PCA_Shutoff_Error_Properties;

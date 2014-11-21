@@ -1,0 +1,57 @@
+package MAP_Errors
+public
+
+annex EMV2
+{**
+	error types
+		
+		-- ========================================== --
+		-- Errors related to physiological monitoring --
+		-- ========================================== --
+		-- The data from our device is late
+		LatePhysioDataError renames type ErrorLibrary::LateDelivery;
+		-- The data from our device is incorrect
+		WrongPhysioDataError renames type ErrorLibrary::IncorrectValue;
+		-- The device doesn't notify us of a problem
+		PhysioDeviceErrorOmission renames type ErrorLibrary::ServiceOmission;
+		-- The device notifies us of a problem that doesn't exist
+		PhysioDeviceErrorCommission renames type ErrorLibrary::ServiceOmission;
+		-- The device shuts off / disconnects from the network
+		PhysioDeviceFailure : type;
+		
+		
+		-- ==================================== --
+		-- Errors related to controlled devices --
+		-- ==================================== --
+		-- The device does something we don't want
+		DeviceCommission renames type ErrorLibrary::ServiceCommission;
+		-- The device doesn't do something we want 
+		DeviceOmission renames type ErrorLibrary::ServiceOmission;
+		
+		-- ================================================================ --
+		-- Errors related to the app's logic                                --
+		-- ---------------------------------------------------------------- --
+		-- You should extend these to create error types that correspond to --
+		-- errors your app can cause / can't handle internally              --
+		-- ================================================================ --
+		
+		-- The app does something we don't want
+		AppCommission renames type ErrorLibrary::ServiceCommission;
+		-- The app doesn't do something we want 
+		AppOmission renames type ErrorLibrary::ServiceOmission;
+		
+		
+		-- =================================== --
+		-- Errors related to the app's display --
+		-- =================================== --
+		-- Wrong information is displayed to the user
+		WrongInfoDisplayedError : type;
+		
+		-- Wrong information is input by the user
+		-- Is it ok to have two different errors rename to the same error type?
+		WrongInputReceivedError renames type ErrorLibrary::IncorrectValue;
+
+	end types;
+**};
+
+end MAP_Errors;

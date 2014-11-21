@@ -1,0 +1,73 @@
+package PCA_Shutoff_Display
+public
+with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties;
+
+	process ICEpcaDisplayProcess
+	features
+		SpO2 : in event data port PCA_Shutoff_Types::SpO2;
+		ETCO2 : in event data port PCA_Shutoff_Types::ETCO2;
+		RespiratoryRate : in event data port PCA_Shutoff_Types::RespiratoryRate;
+		CommandPumpNormal : in event data port PCA_Shutoff_Types::PumpNormalCommand;
+		
+		CapnographError : in event port;
+		PulseOxError : in event port;
+		
+		show : provides data access;
+	properties
+		MAP_Properties::Process_Type => display;
+	annex EMV2 {** 
+ 		use types PCA_Shutoff_Errors;
+		error propagations
+			SpO2 : in propagation {SpO2ValueHigh};
+			flows
+				HighSpO2MisleadsClinician : error sink SpO2 {SpO2ValueHigh};
+		end propagations;
+	**};
+	end ICEpcaDisplayProcess;
+
+	process implementation ICEpcaDisplayProcess.imp
+	subcomponents	
+		UpdateSpO2Thread : thread UpdateSpO2Thread.imp;
+		UpdateETCO2Thread : thread UpdateETCO2Thread.imp;
+		UpdateRespiratoryRateThread : thread UpdateRespiratoryRateThread.imp;
+		PumpStatusThread : thread PumpStatusThread.imp;
+		
+	connections
+		incoming_spo2 : port SpO2 -> UpdateSpO2Thread.SpO2;
+		incoming_rr : port RespiratoryRate -> UpdateRespiratoryRateThread.RespiratoryRate;
+		incoming_pump_command : port CommandPumpNormal -> PumpStatusThread.StatusNormal;
+		
+	end ICEpcaDisplayProcess.imp;
+	
+	thread UpdateSpO2Thread
+	features
+		SpO2 : in event data port PCA_Shutoff_Types::SpO2;
+	end UpdateSpO2Thread;
+	
+	thread implementation UpdateSpO2Thread.imp
+	end UpdateSpO2Thread.imp;
+	
+	thread UpdateETCO2Thread
+	features
+		ETCO2 : in event data port PCA_Shutoff_Types::ETCO2;
+	end UpdateETCO2Thread;
+	
+	thread implementation UpdateETCO2Thread.imp
+	end UpdateETCO2Thread.imp;
+	
+	thread UpdateRespiratoryRateThread
+	features
+		RespiratoryRate : in event data port PCA_Shutoff_Types::RespiratoryRate;
+	end UpdateRespiratoryRateThread;
+
+	thread implementation UpdateRespiratoryRateThread.imp
+	end UpdateRespiratoryRateThread.imp;
+	
+	thread PumpStatusThread
+	features
+		StatusNormal : in event data port PCA_Shutoff_Types::PumpNormalCommand;
+	end PumpStatusThread;
+
+	thread implementation PumpStatusThread.imp
+	end PumpStatusThread.imp;
+end PCA_Shutoff_Display;

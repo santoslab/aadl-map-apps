@@ -1,0 +1,29 @@
+package PCA_Shutoff_Types
+public
+with Data_Model, IEEE11073_Nomenclature;
+	data RespiratoryRate
+	properties
+		Data_Model::Data_Representation => Integer;
+		IEEE11073_Nomenclature::OID => IEEE11073_Nomenclature::MDC_CO2_RESP_RATE; 
+		Data_Model::Integer_Range => 0 .. 25;
+	end RespiratoryRate;
+
+	data SpO2
+	properties
+		Data_Model::Data_Representation => Integer;
+		IEEE11073_Nomenclature::OID => IEEE11073_Nomenclature::MDC_PULS_OXIM_SAT_O2; 
+		Data_Model::Integer_Range => 0 .. 100;
+	end SpO2;
+
+	data ETCO2
+	properties
+		Data_Model::Data_Representation => Integer;
+		IEEE11073_Nomenclature::OID => IEEE11073_Nomenclature::MDC_CONC_AWAY_CO2_ET; 
+		Data_Model::Integer_Range => 25 .. 50;
+	end ETCO2;
+
+	data PumpNormalCommand
+	properties
+		Data_Model::Data_Representation => Boolean;
+	end PumpNormalCommand;
+end PCA_Shutoff_Types;

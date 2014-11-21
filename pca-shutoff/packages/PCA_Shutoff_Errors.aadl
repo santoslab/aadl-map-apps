@@ -1,0 +1,28 @@
+package PCA_Shutoff_Errors
+public
+with MAP_Errors, PCA_Shutoff_Error_Properties, MAP_Error_Properties,
+	PCA_Shutoff;
+
+annex EMV2
+{**
+	error types
+	-- These errors aren't associated with unsafe states, but they're here for completeness
+	SpO2ValueLow : type extends MAP_Errors::WrongPhysioDataError;
+	RespiratoryRateLow : type extends MAP_Errors::WrongPhysioDataError;
+	ETCO2ValueHigh : type extends MAP_Errors::WrongPhysioDataError;
+	
+	-- These errors will cause the app to logic to think the patient is healthy when she isn't
+	SpO2ValueHigh : type extends MAP_Errors::WrongPhysioDataError;
+	RespiratoryRateHigh : type extends MAP_Errors::WrongPhysioDataError;
+	ETCO2ValueLow : type extends MAP_Errors::WrongPhysioDataError;
+	
+	-- These are errors with devices
+	DeviceAlarmFailsOn : type extends MAP_Errors::PhysioDeviceErrorCommission;
+	DeviceAlarmFailsOff : type extends MAP_Errors::PhysioDeviceErrorOmission;
+	BadInfoDisplayedToClinician : type extends MAP_Errors::WrongInfoDisplayedError;
+	InadvertentPumpNormally : type extends MAP_Errors::AppCommission;
+	InadvertentPumpMinimally : type extends MAP_Errors::AppOmission;
+	end types;
+**};
+
+end PCA_Shutoff_Errors; 
