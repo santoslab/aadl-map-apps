@@ -24,21 +24,31 @@ Accident_Level : type record (
 );
 
 Accident : type record (
-	Number : aadlinteger;
 	Description : aadlstring;
 	Level : MAP_Error_Properties::Accident_Level; 
 );
 
-Hazard: type record (
-	Number : aadlinteger;
+System_Hazard: type record (
 	Description : aadlstring;
 	Accident : MAP_Error_Properties::Accident;
 );
 
-Constraint: type record (
-	Number : aadlinteger;
+Hazard: type record (
+	Description : aadlstring;
+	Accident : MAP_Error_Properties::Accident;
+	System_Hazard : MAP_Error_Properties::System_Hazard;
+);
+
+System_Constraint: type record (
 	Description : aadlstring;
 	Hazard : MAP_Error_Properties::Hazard;	
+);
+
+
+Constraint: type record (
+	Description : aadlstring;
+	Hazard : MAP_Error_Properties::Hazard;	
+	System_Constraint : MAP_Error_Properties::System_Constraint;
 );
 
 -- ============================ --
@@ -47,7 +57,11 @@ Constraint: type record (
 
 KindsType : type enumeration (
 	NotProviding, Providing, Early, Late, AppliedTooLong, StoppedTooSoon, 
-	ValueLow, ValueHigh, ParamsMissing, ParamsWrong, ParamsOutOfOrder
+	ValueLow, ValueHigh, ParamsMissing, ParamsWrong, ParamsOutOfOrder,
+	
+	-- These two values are for marking a control action as having been 
+	-- considered, so you don't just have an empty table cell.
+	NotHazardous, NotApplicable
 );
 
 Occurrence : record (
@@ -55,10 +69,11 @@ Occurrence : record (
 	Hazard : MAP_Error_Properties::Hazard;
 	ViolatedConstraint : MAP_Error_Properties::Constraint;
 	Title : aadlstring;
-	Cause : aadlstring;
-	Compensation : aadlstring;
-	Impact : reference ({emv2}**error type);
---) applies to ({emv2}**connection error source);
+	Cause : record (
+		ErrorType : reference ({emv2}**error type);
+		Description : aadlstring;
+	);
+	Compensation : aadlstring;	
 ) applies to (port connection);
 
 end MAP_Error_Properties;
