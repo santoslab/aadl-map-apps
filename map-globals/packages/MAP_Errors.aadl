@@ -1,90 +1,57 @@
 package MAP_Errors
 public
-annex EMv2
+
+annex EMV2
 {**
 	error types
-	-- Type extension is used throughout this library (rather than renaming) to
-	-- avoid aliasing
-	
-	-- ============================= --
-	-- Errors Related to Controllers --
-	-- ============================= --
-	
-	-- Problems with control input or external information
-	ControlInputWrong : type extends ErrorLibrary::ItemCommission;
-	ControlInputMissing : type extends ErrorLibrary::ItemOmission;
-	
-	-- Problems with the control algorithm
-	IncorrectlyBuiltControlAlgorithm : type extends ErrorLibrary::ServiceError; -- "Flaws in creation"
-	OutdatedControlAlgorithm : type extends ErrorLibrary::ServiceError; -- "Process Changes"
-	IncorrectlyModifiedControlAlgorithm  : type extends ErrorLibrary::ServiceError;
-	
-	-- Problems with the controller's process model
-	ProcessModelInconsistent : type extends ErrorLibrary::ServiceError;
-	ProcessModelIncomplete : type extends ErrorLibrary::ServiceError;
-	ProcessModelIncorrect : type extends ErrorLibrary::ServiceError;
-	
-	-- ==================================================== --
-	-- Errors Related to Controller -> Actuator Connections --
-	-- ==================================================== --
-	
-	InappropriateControlAction : type extends ErrorLibrary::SequenceCommission;
-	IneffectiveControlAction : type extends ErrorLibrary::ServiceError;
-	MissingControlAction : type extends ErrorLibrary::ItemOmission;
-	
-	-- =========================== --
-	-- Errors Related to Actuators --
-	-- =========================== --
-	
-	InadequateActuatorOperation : type extends ErrorLibrary::ServiceError;
-	
-	-- ============================================================ --
-	-- Errors Related to Actuator -> Controlled Process Connections --
-	-- ============================================================ --
-	
-	DelayedOperation : type extends ErrorLibrary::LateDelivery;
-	
-	-- ====================================== --
-	-- Errors Related to Controlled Processes --
-	-- ====================================== --
-	
-	-- Problems where the controlled process itself fails
-	ComponentFailure : type;
-	ChangesOverTime : type;
-	
-	-- Probelms with external inputs to the controlled process
-	ConflictingControlActionsFromExternalController : type extends ErrorLibrary::SequenceCommission;
-	ProcessInputMissing : type extends ErrorLibrary::ItemOmission;
-	ProcessInputWrong : type extends ErrorLibrary::ItemCommission;
-	UnidentifiedDisturbance : type extends ErrorLibrary::ItemCommission;
-	OutOfRangeDisturbance : type extends ErrorLibrary::OutOfRange;
-	
-	-- The controlled process somehow contributes to a system hazard
-	ProcessOutputContributesToSystemHazard : type;
-	
-	-- ========================================================== --
-	-- Errors Related to Controlled Process -> Sensor Connections --
-	-- ========================================================== --
-	
-	FeedbackDelayedFromProcess : type extends ErrorLibrary::LateData;
-	MesasurementInaccurate : type extends ErrorLibrary::ServiceCommission;
-	IncorrectInformationProvided : type extends ErrorLibrary::ItemCommission;
-	NoInformationProvided : type extends ErrorLibrary::ItemOmission;
-	
-	-- ========================= --
-	-- Errors Related to Sensors --
-	-- ========================= --
-	
-	InadequateSensorOperation : type extends ErrorLibrary::ServiceError;
-	
-	-- ================================================== --
-	-- Errors Related to Sensor -> Controller Connections --
-	-- ================================================== --
-	
-	FeedbackDelayedFromSensor : type extends ErrorLibrary::LateData;
-	InadequateFeedback : type extends ErrorLibrary::ItemCommission;
-	MissingFeedback : type extends ErrorLibrary::ItemOmission;
-	
+		
+		-- ========================================== --
+		-- Errors related to physiological monitoring --
+		-- ========================================== --
+		-- The data from our device is late
+		LatePhysioDataError renames type ErrorLibrary::LateDelivery;
+		-- The data from our device is incorrect
+		WrongPhysioDataError renames type ErrorLibrary::IncorrectValue;
+		-- The device doesn't notify us of a problem
+		PhysioDeviceErrorOmission renames type ErrorLibrary::ServiceOmission;
+		-- The device notifies us of a problem that doesn't exist
+		PhysioDeviceErrorCommission renames type ErrorLibrary::ServiceOmission;
+		-- The device shuts off / disconnects from the network
+		PhysioDeviceFailure : type;
+		
+		
+		-- ==================================== --
+		-- Errors related to controlled devices --
+		-- ==================================== --
+		-- The device does something we don't want
+		DeviceCommission renames type ErrorLibrary::ServiceCommission;
+		-- The device doesn't do something we want 
+		DeviceOmission renames type ErrorLibrary::ServiceOmission;
+		
+		-- ================================================================ --
+		-- Errors related to the app's logic                                --
+		-- ---------------------------------------------------------------- --
+		-- You should extend these to create error types that correspond to --
+		-- errors your app can cause / can't handle internally              --
+		-- ================================================================ --
+		
+		-- The app does something we don't want
+		AppCommission renames type ErrorLibrary::ServiceCommission;
+		-- The app doesn't do something we want 
+		AppOmission renames type ErrorLibrary::ServiceOmission;
+		
+		
+		-- =================================== --
+		-- Errors related to the app's display --
+		-- =================================== --
+		-- Wrong information is displayed to the user
+		WrongInfoDisplayedError : type;
+		
+		-- Wrong information is input by the user
+		-- Is it ok to have two different errors rename to the same error type?
+		WrongInputReceivedError renames type ErrorLibrary::IncorrectValue;
+
 	end types;
 **};
+
 end MAP_Errors;

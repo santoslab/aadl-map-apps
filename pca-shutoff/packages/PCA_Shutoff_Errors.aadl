@@ -6,17 +6,22 @@ with MAP_Errors, PCA_Shutoff_Error_Properties, MAP_Error_Properties,
 annex EMV2
 {**
 	error types
-		InadvertentPumpNormally : type extends MAP_Errors::InappropriateControlAction;
-		
-		-- Should this be inadequate sensor operation? Or inadequate feedback?
-		SpO2ValueHigh : type extends MAP_Errors::InadequateSensorOperation;
-		SpO2ValueLow : type extends MAP_Errors::InadequateSensorOperation;
-		ETCO2ValueLow : type extends MAP_Errors::InadequateSensorOperation;
-		ETCO2ValueHigh : type extends MAP_Errors::InadequateSensorOperation;
-		RespiratoryRateLow : type extends MAP_Errors::InadequateSensorOperation;
-		RespiratoryRateHigh : type extends MAP_Errors::InadequateSensorOperation;
-		DeviceAlarmFailsOn : type extends MAP_Errors::InadequateSensorOperation;
-		DeviceAlarmFailsOff : type extends MAP_Errors::InadequateSensorOperation;
+	-- These errors aren't associated with unsafe states, but they're here for completeness
+	SpO2ValueLow : type extends MAP_Errors::WrongPhysioDataError;
+	RespiratoryRateLow : type extends MAP_Errors::WrongPhysioDataError;
+	ETCO2ValueHigh : type extends MAP_Errors::WrongPhysioDataError;
+	
+	-- These errors will cause the app to logic to think the patient is healthy when she isn't
+	SpO2ValueHigh : type extends MAP_Errors::WrongPhysioDataError;
+	RespiratoryRateHigh : type extends MAP_Errors::WrongPhysioDataError;
+	ETCO2ValueLow : type extends MAP_Errors::WrongPhysioDataError;
+	
+	-- These are errors with devices
+	DeviceAlarmFailsOn : type extends MAP_Errors::PhysioDeviceErrorCommission;
+	DeviceAlarmFailsOff : type extends MAP_Errors::PhysioDeviceErrorOmission;
+	BadInfoDisplayedToClinician : type extends MAP_Errors::WrongInfoDisplayedError;
+	InadvertentPumpNormally : type extends MAP_Errors::AppCommission;
+	InadvertentPumpMinimally : type extends MAP_Errors::AppOmission;
 	end types;
 **};
 
