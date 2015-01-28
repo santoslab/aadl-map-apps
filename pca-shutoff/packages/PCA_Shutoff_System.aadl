@@ -40,11 +40,13 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		spo2_flow : end to end flow pulseOx.spo2_flow -> spo2_logic -> appLogic.spo2_flow -> pumpcommand_logic -> pcaPump.spo2_flow;
 	annex EMV2 {**
 		use types PCA_Shutoff_Errors;
+		connection error
+			pulseox_dc : error source spo2_logic {InadvertentPumpNormally};
+		end connection;
 		properties
 		-- Errors between the app logic and the pump
 		MAP_Error_Properties::Occurrence => [
 			Kind => Providing;
-			Hazard => PCA_Shutoff_Error_Properties::InadvertentPumpNormally;
 			ViolatedConstraint => PCA_Shutoff_Error_Properties::DontLetPumpRunWhenUnsafe;
 			Title => "High Physio Params";
 			Cause => [

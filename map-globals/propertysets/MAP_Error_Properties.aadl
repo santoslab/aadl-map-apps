@@ -28,27 +28,14 @@ Accident : type record (
 	Level : MAP_Error_Properties::Accident_Level; 
 );
 
-System_Hazard: type record (
-	Description : aadlstring;
-	Accident : MAP_Error_Properties::Accident;
-);
-
 Hazard: type record (
 	Description : aadlstring;
 	Accident : MAP_Error_Properties::Accident;
-	System_Hazard : MAP_Error_Properties::System_Hazard;
 );
-
-System_Constraint: type record (
-	Description : aadlstring;
-	Hazard : MAP_Error_Properties::Hazard;	
-);
-
 
 Constraint: type record (
 	Description : aadlstring;
-	Hazard : MAP_Error_Properties::Hazard;	
-	System_Constraint : MAP_Error_Properties::System_Constraint;
+	Hazard : MAP_Error_Properties::Hazard;
 );
 
 -- ============================ --
@@ -56,8 +43,14 @@ Constraint: type record (
 -- ============================ --
 
 KindsType : type enumeration (
+	-- From Tbl 8.4 in Engineering a Safer World
 	NotProviding, Providing, Early, Late, AppliedTooLong, StoppedTooSoon, 
-	ValueLow, ValueHigh, ParamsMissing, ParamsWrong, ParamsOutOfOrder,
+	
+	-- [Where are these from?]
+	ValueLow, ValueHigh, 
+	
+	-- [Paper for Complex Parameters]
+	ParamsMissing, ParamsWrong, ParamsOutOfOrder,
 	
 	-- These two values are for marking a control action as having been 
 	-- considered, so you don't just have an empty table cell.
@@ -66,7 +59,6 @@ KindsType : type enumeration (
 
 Occurrence : record (
 	Kind : MAP_Error_Properties::KindsType;
-	Hazard : MAP_Error_Properties::Hazard;
 	ViolatedConstraint : MAP_Error_Properties::Constraint;
 	Title : aadlstring;
 	Cause : record (
@@ -74,6 +66,6 @@ Occurrence : record (
 		Description : aadlstring;
 	);
 	Compensation : aadlstring;	
-) applies to (port connection);
+) applies to (port connection, {emv2}**connection error source);
 
 end MAP_Error_Properties;
