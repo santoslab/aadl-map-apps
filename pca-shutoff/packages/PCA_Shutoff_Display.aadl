@@ -15,6 +15,7 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties;
 		show : provides data access;
 	properties
 		MAP_Properties::Process_Type => display;
+		MAP_Properties::Component_Type => actuator;
 	annex EMV2 {** 
  		use types PCA_Shutoff_Errors;
 		error propagations

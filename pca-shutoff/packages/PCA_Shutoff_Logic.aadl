@@ -17,6 +17,7 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties;
 		spo2_flow: flow path SpO2 -> CommandPumpNormal;
 	properties
 		MAP_Properties::Process_Type => logic;
+		MAP_Properties::Component_Type => controller;
 	annex EMV2 {** 
  		use types PCA_Shutoff_Errors;
 		error propagations

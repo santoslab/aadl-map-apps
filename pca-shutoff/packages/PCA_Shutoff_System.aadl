@@ -38,6 +38,8 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		pulseox_fail_disp : port pulseOx.DeviceError -> appDisplay.pulseOxError;
 	flows
 		spo2_flow : end to end flow pulseOx.spo2_flow -> spo2_logic -> appLogic.spo2_flow -> pumpcommand_logic -> pcaPump.spo2_flow;
+	properties
+		MAP_Properties::Component_Type => controller;
 	annex EMV2 {**
 		use types PCA_Shutoff_Errors;
 		connection error
