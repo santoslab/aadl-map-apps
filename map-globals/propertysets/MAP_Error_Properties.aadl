@@ -64,6 +64,19 @@ KindsType : type enumeration (
 
 RelevantStates : MAP_Error_Properties::Accident applies to ({emv2}**error behavior state machine);
 
+-- Accident?
+-- CompState
+-- EnvState
+
+-- Do we want a link to the associated notion of harm (or top-level hazard)?  If so,
+--   it makes everything more readable, but is redundant.
+ProtoHazard : record (
+	-- An abstract state of this component relevant to an identified notion of harm
+	ComponentState : reference ({emv2}**error behavior state);
+	-- A state of this component's environment relevant to an identified notion of harm
+	EnvironmentState : reference ({emv2}**error behavior state); 
+) applies to (all);
+
 Occurrence : record (
 	Kind : MAP_Error_Properties::KindsType;
 	ViolatedConstraint : MAP_Error_Properties::Constraint;
