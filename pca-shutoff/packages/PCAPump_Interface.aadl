@@ -1,6 +1,6 @@
 package PCAPump_Interface
 public
-with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties;
+with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Properties;
 	device ICEpcaInterface
 	features
 		-- Whether or not the pump should run at a normal rate (for some
@@ -12,6 +12,7 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties;
 		MAP_Properties::Component_Type => actuator;
 	annex EMV2 {**
  		use types PCA_Shutoff_Errors;
+		use behavior PCA_Shutoff_Errors::PumpAction;
 		error propagations
 			-- Incorrect tickets could arrive via the PumpNormally port
 			PumpNormally : in propagation {InadvertentPumpNormally};
@@ -20,6 +21,8 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties;
 				--  more failures (within the app boundary)
 				ODCommand : error sink PumpNormally {InadvertentPumpNormally};	
 		end propagations;
+		properties
+			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PumpAction;
 	**};
 	end ICEpcaInterface;
 

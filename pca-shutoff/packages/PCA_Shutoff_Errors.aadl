@@ -18,6 +18,19 @@ annex EMV2
 		DeviceAlarmFailsOn : type extends MAP_Errors::InadequateSensorOperation;
 		DeviceAlarmFailsOff : type extends MAP_Errors::InadequateSensorOperation;
 	end types;
+	
+	error behavior PatientStatus
+	states 
+		Healthy : initial state;
+		Risk : state;
+		Overdose : state;
+	end behavior;
+	
+	error behavior PumpAction
+	states
+		PumpNormal : initial state;
+		PumpMinimal : state;
+	end behavior;
 **};
 
-end PCA_Shutoff_Errors; 
+end PCA_Shutoff_Errors;

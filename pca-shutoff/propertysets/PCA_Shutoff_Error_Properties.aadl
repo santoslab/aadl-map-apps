@@ -1,5 +1,5 @@
 property set PCA_Shutoff_Error_Properties is
-with EMV2, MAP_Error_Properties;
+with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors;
 
 	-- =================================
 	-- Accident Levels

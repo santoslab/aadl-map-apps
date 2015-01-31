@@ -25,7 +25,7 @@ Accident_Level : type record (
 
 Accident : type record (
 	Description : aadlstring;
-	Level : MAP_Error_Properties::Accident_Level; 
+	Level : MAP_Error_Properties::Accident_Level;
 );
 
 Hazard: type record (
@@ -56,6 +56,13 @@ KindsType : type enumeration (
 	-- considered, so you don't just have an empty table cell.
 	NotHazardous, NotApplicable
 );
+
+--RelevantStates : record (
+--	Harm : MAP_Error_Properties::Accident;
+--	States : reference ({emv2}**error behavior state machine);
+--) applies to (all);
+
+RelevantStates : MAP_Error_Properties::Accident applies to ({emv2}**error behavior state machine);
 
 Occurrence : record (
 	Kind : MAP_Error_Properties::KindsType;

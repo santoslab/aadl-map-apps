@@ -1,6 +1,6 @@
 package PCA_Shutoff_Logic
 public
-with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties;
+with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Properties;
 
 	process ICEpcaShutoffProcess
 	features
@@ -30,6 +30,8 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties;
 				HighETCO2LeadsToOD : error path ETCO2{ETCO2ValueHigh} -> CommandPumpNormal{InadvertentPumpNormally};
 				LowRRLeadsToOD : error path RespiratoryRate{RespiratoryRateLow, RespiratoryRateHigh} -> CommandPumpNormal{InadvertentPumpNormally};
 		end propagations;
+		properties
+			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PatientStatus;
 	**};
 	end ICEpcaShutoffProcess;
 

@@ -46,6 +46,16 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 			pulseox_dc : error source spo2_logic {InadvertentPumpNormally};
 		end connection;
 		properties
+		
+		MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PumpAction;
+
+-- 		This would be the preferred syntax for specifying the (Harm, StateSet) pair, but I can't figure out how to
+--		  make it validate, so we use the other notation.
+--		MAP_Error_Properties::RelevantStates => [
+--			Harm => PCA_Shutoff_Error_Properties::PatientDeath;
+--			States => reference(PumpAction);
+--		];
+--		
 		-- Errors between the app logic and the pump
 		MAP_Error_Properties::Occurrence => [
 			Kind => Providing;

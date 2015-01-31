@@ -1,6 +1,6 @@
 package PulseOx_Interface
 public
-with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties;
+with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Properties;
 	device ICEpoInterface
 	-- A device interface consists of its ports, since it presents the app's
 	--  view of a device, rather than the device itself
@@ -37,6 +37,8 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties;
 				DeviceAlarmNotSent : error source DeviceError {DeviceAlarmFailsOn};
 				DeviceAlarmErroneouslySent : error source DeviceError {DeviceAlarmFailsOff};
 		end propagations;
+		properties
+			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PatientStatus;
 	**};
 	end ICEpoInterface;
 

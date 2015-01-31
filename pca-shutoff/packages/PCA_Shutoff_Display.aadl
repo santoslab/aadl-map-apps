@@ -1,6 +1,6 @@
 package PCA_Shutoff_Display
 public
-with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties;
+with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties;
 
 	process ICEpcaDisplayProcess
 	features
@@ -15,7 +15,7 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties;
 		show : provides data access;
 	properties
 		MAP_Properties::Process_Type => display;
-		MAP_Properties::Component_Type => actuator;
+		MAP_Properties::Component_Type => sensor;
 	annex EMV2 {** 
  		use types PCA_Shutoff_Errors;
 		error propagations
@@ -23,6 +23,8 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties;
 			flows
 				HighSpO2MisleadsClinician : error sink SpO2 {SpO2ValueHigh};
 		end propagations;
+		properties
+			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PatientStatus;
 	**};
 	end ICEpcaDisplayProcess;
 
