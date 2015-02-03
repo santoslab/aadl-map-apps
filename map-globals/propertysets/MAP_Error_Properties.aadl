@@ -64,17 +64,20 @@ KindsType : type enumeration (
 
 RelevantStates : MAP_Error_Properties::Accident applies to ({emv2}**error behavior state machine);
 
--- Accident?
--- CompState
--- EnvState
-
 -- Do we want a link to the associated notion of harm (or top-level hazard)?  If so,
 --   it makes everything more readable, but is redundant.
 ProtoHazard : record (
+	Harm : MAP_Error_Properties::Accident;
 	-- An abstract state of this component relevant to an identified notion of harm
 	ComponentState : reference ({emv2}**error behavior state);
 	-- A state of this component's environment relevant to an identified notion of harm
-	EnvironmentState : reference ({emv2}**error behavior state); 
+	EnvironmentState : reference ({emv2}**error behavior state);
+	-- The information required by this component to avoid this protohazard is the state of the environment.
+	--  We want to identify the interaction points through which this information enters the component.
+	--  Unfortunately, due to AADL's implementation (though it seems to be by design?), we cannot refer to
+	--  features in reference properties in EMV2 -- we can only refer to propagation points. See 
+	--  org.osate.xtext.aadl2.errormodel.linking.EMLinkingService.java, lines 186-87.
+	InteractionPoints : list of reference ({emv2}**error propagation);
 ) applies to (all);
 
 Occurrence : record (

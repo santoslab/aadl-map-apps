@@ -32,12 +32,12 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 		end propagations;
 		properties
 			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PatientStatus;
-			
 			MAP_Error_Properties::ProtoHazard => [
+				Harm => PCA_Shutoff_Error_Properties::PatientDeath;
 				ComponentState => reference(PumpNormal);
 				EnvironmentState => reference(Risk);
+				InteractionPoints => (reference(SpO2), reference(ETCO2)); 
 			];
-			
 	**};
 	end ICEpcaShutoffProcess;
 
