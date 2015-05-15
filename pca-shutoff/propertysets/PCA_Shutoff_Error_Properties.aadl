@@ -1,6 +1,15 @@
 property set PCA_Shutoff_Error_Properties is
 with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors;
 
+	Context : constant MAP_Error_Properties::Context => "Example context";
+	
+	NoAlarms : constant MAP_Error_Properties::Assumption => "There are no alarms that need forwarding";
+	
+	SpO2 : constant MAP_Error_Properties::Abbreviation => [
+		Full => "Blood-oxygen Saturation";
+		Definition => "The oxygenation of the patient's blood";
+	];
+
 	-- =================================
 	-- Accident Levels
 	-- =================================

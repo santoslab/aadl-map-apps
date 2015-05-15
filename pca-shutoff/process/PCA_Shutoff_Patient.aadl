@@ -1,0 +1,10 @@
+package PCA_Shutoff_Patient
+public
+	abstract PCA_Shutoff_Patient
+	features
+		analgesic : feature group;		
+	end PCA_Shutoff_Patient;
+	
+	abstract implementation PCA_Shutoff_Patient.imp
+	end PCA_Shutoff_Patient.imp;
+end PCA_Shutoff_Patient;

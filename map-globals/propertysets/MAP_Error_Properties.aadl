@@ -50,11 +50,7 @@ KindsType : type enumeration (
 	ValueLow, ValueHigh, 
 	
 	-- [Paper for Complex Parameters]
-	ParamsMissing, ParamsWrong, ParamsOutOfOrder,
-	
-	-- These two values are for marking a control action as having been 
-	-- considered, so you don't just have an empty table cell.
-	NotHazardous, NotApplicable
+	ParamsMissing, ParamsWrong, ParamsOutOfOrder
 );
 
 --RelevantStates : record (

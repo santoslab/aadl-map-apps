@@ -49,8 +49,8 @@ annex EMv2
 	-- ====================================== --
 	
 	-- Problems where the controlled process itself fails
-	ComponentFailure : type;
-	ChangesOverTime : type;
+	ComponentFailure : type; -- ServiceOmission
+	ChangesOverTime : type; -- Look at sequence related errors
 	
 	-- Probelms with external inputs to the controlled process
 	ConflictingControlActionsFromExternalController : type extends ErrorLibrary::SequenceCommission;

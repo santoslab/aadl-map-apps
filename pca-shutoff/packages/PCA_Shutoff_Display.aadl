@@ -12,10 +12,10 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties, MAP_Error_Proper
 		CapnographError : in event port;
 		PulseOxError : in event port;
 		
-		show : provides data access;
+		show : out feature; -- You can add a type
 	properties
 		MAP_Properties::Process_Type => display;
-		MAP_Properties::Component_Type => sensor;
+		MAP_Properties::Component_Type => actuator;
 	annex EMV2 {** 
  		use types PCA_Shutoff_Errors;
 		error propagations

@@ -15,7 +15,7 @@ public
 		display : process PCA_Shutoff_Display::ICEpcaDisplayProcess;
 		clinician : abstract PCA_Shutoff_Clinician::PCA_Shutoff_Clinician;
 	connections
-		observe : data access clinician.look -> display.show;
+		observe : feature display.show -> clinician.look;
 	properties
 		MAP_Properties::Component_Type => top;
 	annex EMV2 {**

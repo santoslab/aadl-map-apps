@@ -37,7 +37,11 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		capnograph_fail_disp : port capnograph.DeviceError -> appDisplay.capnographError;
 		pulseox_fail_disp : port pulseOx.DeviceError -> appDisplay.pulseOxError;
 	flows
-		spo2_flow : end to end flow pulseOx.spo2_flow -> spo2_logic -> appLogic.spo2_flow -> pumpcommand_logic -> pcaPump.spo2_flow;
+		spo2_flow : end to end flow pulseOx.spo2_flow -> 
+									spo2_logic -> 
+									appLogic.spo2_flow -> 
+									pumpcommand_logic -> 
+									pcaPump.spo2_flow;
 	properties
 		MAP_Properties::Component_Type => controller;
 	annex EMV2 {**
@@ -47,15 +51,15 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		end connection;
 		properties
 		
-		MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PumpAction;
-
--- 		This would be the preferred syntax for specifying the (Harm, StateSet) pair, but I can't figure out how to
---		  make it validate, so we use the other notation.
---		MAP_Error_Properties::RelevantStates => [
---			Harm => PCA_Shutoff_Error_Properties::PatientDeath;
---			States => reference(PumpAction);
---		];
---		
+--		MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PumpAction;
+--
+---- 		This would be the preferred syntax for specifying the (Harm, StateSet) pair, but I can't figure out how to
+----		  make it validate, so we use the other notation.
+----		MAP_Error_Properties::RelevantStates => [
+----			Harm => PCA_Shutoff_Error_Properties::PatientDeath;
+----			States => reference(PumpAction);
+----		];
+----		
 		-- Errors between the app logic and the pump
 		MAP_Error_Properties::Occurrence => [
 			Kind => Providing;
@@ -66,6 +70,15 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 				Description => "One or more physiological parameters are too high, leading the app logic to incorrectly believe the patient is healthy";
 			];
 			Compensation => "Physiological values are cross-checked with others";
+		] applies to pumpcommand_logic;
+		
+		MAP_Error_Properties::Occurrence => [
+			Kind => NotProviding;
+			Title => "NotHazardous";
+			Cause => [
+				Description => "Not running the pump isn't unsafe (though it may be undesirable)";
+			];
+			Compensation => "Not needed";
 		] applies to pumpcommand_logic;
 --		MAP_Error_Properties::Occurrence => [
 --			Kind => AppliedTooLong;

@@ -2,7 +2,7 @@ package PCA_Shutoff_Clinician
 public
 	abstract PCA_Shutoff_Clinician
 	features
-		look : requires data access;
+		look : in feature;
 	end PCA_Shutoff_Clinician;
 	
 	abstract implementation PCA_Shutoff_Clinician.imp
