@@ -34,8 +34,8 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		respiratoryrate_disp : port capnograph.RespiratoryRate -> appDisplay.RespiratoryRate;
 		pumpcommand_disp : port appLogic.CommandPumpNormal -> appDisplay.CommandPumpNormal;
 		etco2_disp : port capnograph.ETCO2 -> appDisplay.ETCO2;
-		capnograph_fail_disp : port capnograph.DeviceError -> appDisplay.capnographError;
-		pulseox_fail_disp : port pulseOx.DeviceError -> appDisplay.pulseOxError;
+		--capnograph_fail_disp : port capnograph.DeviceError -> appDisplay.capnographError;
+		--pulseox_fail_disp : port pulseOx.DeviceError -> appDisplay.pulseOxError;
 	flows
 		spo2_flow : end to end flow pulseOx.spo2_flow -> spo2_logic -> appLogic.spo2_flow -> pumpcommand_logic -> pcaPump.spo2_flow;
 	annex EMV2 {**
