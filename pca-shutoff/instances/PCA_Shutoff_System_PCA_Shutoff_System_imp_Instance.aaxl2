@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="ASCII"?>
+<instance:SystemInstance xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aadl2="http://aadl.info/AADL/2.0" xmlns:instance="http://aadl.info/AADL/2.0/instance" name="PCA_Shutoff_System_imp_Instance" category="system">
+  <componentInstance name="pulseOx" category="device">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../map-globals/propertysets/MAP_Properties.aadl#MAP_Properties.Component_Type"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../map-globals/propertysets/MAP_Properties.aadl#//@ownedPropertyType.1/@ownedLiteral.1"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../packages/PulseOx_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="SpO2" srcConnectionInstance="//@connectionInstance.0 //@connectionInstance.1" dstFlowSpec="//@componentInstance.0/@flowSpecification.0" category="eventDataPort" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="100"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PulseOx_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="DeviceError" srcConnectionInstance="//@connectionInstance.2" category="eventPort" direction="out">
+      <feature xsi:type="aadl2:EventPort" href="../packages/PulseOx_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventPort.0"/>
+    </featureInstance>
+    <flowSpecification name="spo2_flow" destination="//@componentInstance.0/@featureInstance.0">
+      <flowSpecification href="../packages/PulseOx_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedFlowSpecification.0"/>
+    </flowSpecification>
+    <subcomponent xsi:type="aadl2:DeviceSubcomponent" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedDeviceSubcomponent.0"/>
+    <index>0</index>
+  </componentInstance>
+  <componentInstance name="capnograph" category="device">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../map-globals/propertysets/MAP_Properties.aadl#MAP_Properties.Component_Type"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../map-globals/propertysets/MAP_Properties.aadl#//@ownedPropertyType.1/@ownedLiteral.1"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../packages/Capnograph_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="ETCO2" srcConnectionInstance="//@connectionInstance.3 //@connectionInstance.4" category="eventDataPort" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral" value="25"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="50"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/Capnograph_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="RespiratoryRate" srcConnectionInstance="//@connectionInstance.5 //@connectionInstance.6" category="eventDataPort" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="25"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/Capnograph_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.1"/>
+    </featureInstance>
+    <featureInstance name="DeviceError" srcConnectionInstance="//@connectionInstance.7" category="eventPort" direction="out">
+      <feature xsi:type="aadl2:EventPort" href="../packages/Capnograph_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventPort.0"/>
+    </featureInstance>
+    <subcomponent xsi:type="aadl2:DeviceSubcomponent" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedDeviceSubcomponent.1"/>
+    <index>0</index>
+  </componentInstance>
+  <componentInstance name="pcaPump" category="device">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../map-globals/propertysets/MAP_Properties.aadl#MAP_Properties.Component_Type"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../map-globals/propertysets/MAP_Properties.aadl#//@ownedPropertyType.1/@ownedLiteral.0"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../packages/PCAPump_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="PumpNormally" dstConnectionInstance="//@connectionInstance.8" srcFlowSpec="//@componentInstance.2/@flowSpecification.0" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.1"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.3/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PCAPump_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.0"/>
+    </featureInstance>
+    <flowSpecification name="spo2_flow" source="//@componentInstance.2/@featureInstance.0">
+      <flowSpecification href="../packages/PCAPump_Interface.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedFlowSpecification.0"/>
+    </flowSpecification>
+    <subcomponent xsi:type="aadl2:DeviceSubcomponent" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedDeviceSubcomponent.2"/>
+    <index>0</index>
+  </componentInstance>
+  <componentInstance name="appLogic" category="process">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../map-globals/propertysets/MAP_Properties.aadl#MAP_Properties.Process_Type"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../map-globals/propertysets/MAP_Properties.aadl#//@ownedPropertyType.0/@ownedLiteral.0"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="ETCO2" dstConnectionInstance="//@connectionInstance.3">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral" value="25"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="50"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:DataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="SpO2" srcFlowSpec="//@componentInstance.3/@flowSpecification.0" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="100"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="RR" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="25"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.1"/>
+    </featureInstance>
+    <featureInstance name="CmdPumpNorm" dstFlowSpec="//@componentInstance.3/@flowSpecification.0" category="eventDataPort" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.1"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.3/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.2"/>
+    </featureInstance>
+    <featureInstance name="CapnographError" category="eventPort">
+      <feature xsi:type="aadl2:EventPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventPort.0"/>
+    </featureInstance>
+    <featureInstance name="PulseOxError" category="eventPort">
+      <feature xsi:type="aadl2:EventPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventPort.1"/>
+    </featureInstance>
+    <componentInstance name="UpdateSpO2Thread" category="thread">
+      <featureInstance name="SpO2In" dstConnectionInstance="//@connectionInstance.0" category="eventDataPort">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="100"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedEventDataPort.0"/>
+      </featureInstance>
+      <featureInstance name="SpO2Out" srcConnectionInstance="//@componentInstance.3/@connectionInstance.0" category="eventDataPort" direction="out">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="100"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedEventDataPort.1"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.0"/>
+      <index>0</index>
+    </componentInstance>
+    <componentInstance name="UpdateRRThread" category="thread">
+      <featureInstance name="RRIn" dstConnectionInstance="//@connectionInstance.5" category="eventDataPort">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="25"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.4/@ownedEventDataPort.0"/>
+      </featureInstance>
+      <featureInstance name="RROut" srcConnectionInstance="//@componentInstance.3/@connectionInstance.1" category="eventDataPort" direction="out">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="25"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.4/@ownedEventDataPort.1"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.1"/>
+      <index>0</index>
+    </componentInstance>
+    <componentInstance name="PumpControlThread" category="thread">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Thread_Properties.aadl#Thread_Properties.Dispatch_Protocol"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Predeclared_Property_Sets/AADL_Project.aadl#//@ownedPropertyType.3/@ownedLiteral.0"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.6/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <featureInstance name="RR" dstConnectionInstance="//@componentInstance.3/@connectionInstance.1" category="eventDataPort">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="25"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.6/@ownedEventDataPort.0"/>
+      </featureInstance>
+      <featureInstance name="SpO2" dstConnectionInstance="//@componentInstance.3/@connectionInstance.0" category="eventDataPort">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="100"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.6/@ownedEventDataPort.1"/>
+      </featureInstance>
+      <featureInstance name="PumpNorm" srcConnectionInstance="//@connectionInstance.8 //@connectionInstance.9" category="eventDataPort" direction="out">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.1"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.3/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.6/@ownedEventDataPort.2"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.2"/>
+      <index>0</index>
+    </componentInstance>
+    <componentInstance name="CapnographErrorThread" category="thread">
+      <featureInstance name="CapnographError" dstConnectionInstance="//@connectionInstance.7" category="eventPort">
+        <feature xsi:type="aadl2:EventPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.8/@ownedEventPort.0"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.3"/>
+      <index>0</index>
+    </componentInstance>
+    <componentInstance name="PulseOxErrorThread" category="thread">
+      <featureInstance name="PulseOxError" dstConnectionInstance="//@connectionInstance.2" category="eventPort">
+        <feature xsi:type="aadl2:EventPort" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.10/@ownedEventPort.0"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.4"/>
+      <index>0</index>
+    </componentInstance>
+    <flowSpecification name="spo2_flow" source="//@componentInstance.3/@featureInstance.1" destination="//@componentInstance.3/@featureInstance.3">
+      <flowSpecification href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedFlowSpecification.0"/>
+    </flowSpecification>
+    <connectionInstance name="UpdateSpO2Thread.SpO2Out -> PumpControlThread.SpO2" complete="true" kind="portConnection" destination="//@componentInstance.3/@componentInstance.2/@featureInstance.1" source="//@componentInstance.3/@componentInstance.0/@featureInstance.1">
+      <connectionReference context="//@componentInstance.3" source="//@componentInstance.3/@componentInstance.0/@featureInstance.1" destination="//@componentInstance.3/@componentInstance.2/@featureInstance.1">
+        <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.3"/>
+      </connectionReference>
+    </connectionInstance>
+    <connectionInstance name="UpdateRRThread.RROut -> PumpControlThread.RR" complete="true" kind="portConnection" destination="//@componentInstance.3/@componentInstance.2/@featureInstance.0" source="//@componentInstance.3/@componentInstance.1/@featureInstance.1">
+      <connectionReference context="//@componentInstance.3" source="//@componentInstance.3/@componentInstance.1/@featureInstance.1" destination="//@componentInstance.3/@componentInstance.2/@featureInstance.0">
+        <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.2"/>
+      </connectionReference>
+    </connectionInstance>
+    <subcomponent xsi:type="aadl2:ProcessSubcomponent" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedProcessSubcomponent.0"/>
+    <index>0</index>
+  </componentInstance>
+  <componentInstance name="appDisplay" category="process">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../map-globals/propertysets/MAP_Properties.aadl#MAP_Properties.Process_Type"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../map-globals/propertysets/MAP_Properties.aadl#//@ownedPropertyType.0/@ownedLiteral.1"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="SpO2" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="100"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="ETCO2" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral" value="25"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="50"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.1"/>
+    </featureInstance>
+    <featureInstance name="RespiratoryRate" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:RangeValue">
+            <minimum xsi:type="aadl2:IntegerLiteral"/>
+            <maximum xsi:type="aadl2:IntegerLiteral" value="25"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.2"/>
+    </featureInstance>
+    <featureInstance name="CommandPumpNormal" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.1"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.3/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedEventDataPort.3"/>
+    </featureInstance>
+    <featureInstance name="show" category="dataAccess" direction="in out">
+      <feature xsi:type="aadl2:DataAccess" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedDataAccess.0"/>
+    </featureInstance>
+    <componentInstance name="UpdateSpO2Thread" category="thread">
+      <featureInstance name="SpO2" dstConnectionInstance="//@connectionInstance.1" category="eventDataPort">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="100"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedEventDataPort.0"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.0"/>
+      <index>0</index>
+    </componentInstance>
+    <componentInstance name="UpdateETCO2Thread" category="thread">
+      <featureInstance name="ETCO2" dstConnectionInstance="//@connectionInstance.4" category="eventDataPort">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral" value="25"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="50"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.2/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.4/@ownedEventDataPort.0"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.1"/>
+      <index>0</index>
+    </componentInstance>
+    <componentInstance name="UpdateRespiratoryRateThread" category="thread">
+      <featureInstance name="RespiratoryRate" dstConnectionInstance="//@connectionInstance.6" category="eventDataPort">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Integer_Range"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:RangeValue">
+              <minimum xsi:type="aadl2:IntegerLiteral"/>
+              <maximum xsi:type="aadl2:IntegerLiteral" value="25"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.0/@ownedPropertyAssociation.2"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.6/@ownedEventDataPort.0"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.2"/>
+      <index>0</index>
+    </componentInstance>
+    <componentInstance name="PumpStatusThread" category="thread">
+      <featureInstance name="StatusNormal" dstConnectionInstance="//@connectionInstance.9" category="eventDataPort">
+        <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+          <property href="../../Plugin_Resources/Data_Model.aadl#Data_Model.Data_Representation"/>
+          <ownedValue>
+            <ownedValue xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="../../Plugin_Resources/Data_Model.aadl#//@ownedProperty.4/@ownedPropertyType/@ownedLiteral.1"/>
+            </ownedValue>
+          </ownedValue>
+          <propertyAssociation href="../packages/PCA_Shutoff_Types.aadl#//@ownedPublicSection/@ownedClassifier.3/@ownedPropertyAssociation.0"/>
+        </ownedPropertyAssociation>
+        <feature xsi:type="aadl2:EventDataPort" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.8/@ownedEventDataPort.0"/>
+      </featureInstance>
+      <subcomponent xsi:type="aadl2:ThreadSubcomponent" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedThreadSubcomponent.3"/>
+      <index>0</index>
+    </componentInstance>
+    <subcomponent xsi:type="aadl2:ProcessSubcomponent" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedProcessSubcomponent.1"/>
+    <index>0</index>
+  </componentInstance>
+  <endToEndFlow name="spo2_flow" flowElement="//@componentInstance.0/@flowSpecification.0 //@connectionInstance.0 //@componentInstance.3/@flowSpecification.0">
+    <endToEndFlow href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedEndToEndFlow.0"/>
+  </endToEndFlow>
+  <connectionInstance name="pulseOx.SpO2 -> appLogic.UpdateSpO2Thread.SpO2In" complete="true" kind="portConnection" destination="//@componentInstance.3/@componentInstance.0/@featureInstance.0" source="//@componentInstance.0/@featureInstance.0">
+    <connectionReference context="/" source="//@componentInstance.0/@featureInstance.0" destination="//@componentInstance.3/@featureInstance.1">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.0"/>
+    </connectionReference>
+    <connectionReference context="//@componentInstance.3" source="//@componentInstance.3/@featureInstance.1" destination="//@componentInstance.3/@componentInstance.0/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.0"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="pulseOx.SpO2 -> appDisplay.UpdateSpO2Thread.SpO2" complete="true" kind="portConnection" destination="//@componentInstance.4/@componentInstance.0/@featureInstance.0" source="//@componentInstance.0/@featureInstance.0">
+    <connectionReference context="/" source="//@componentInstance.0/@featureInstance.0" destination="//@componentInstance.4/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.6"/>
+    </connectionReference>
+    <connectionReference context="//@componentInstance.4" source="//@componentInstance.4/@featureInstance.0" destination="//@componentInstance.4/@componentInstance.0/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.1"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="pulseOx.DeviceError -> appLogic.PulseOxErrorThread.PulseOxError" complete="true" kind="portConnection" destination="//@componentInstance.3/@componentInstance.4/@featureInstance.0" source="//@componentInstance.0/@featureInstance.1">
+    <connectionReference context="/" source="//@componentInstance.0/@featureInstance.1" destination="//@componentInstance.3/@featureInstance.5">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.5"/>
+    </connectionReference>
+    <connectionReference context="//@componentInstance.3" source="//@componentInstance.3/@featureInstance.5" destination="//@componentInstance.3/@componentInstance.4/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.6"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="capnograph.ETCO2 -> appLogic.ETCO2" complete="true" kind="portConnection" destination="//@componentInstance.3/@featureInstance.0" source="//@componentInstance.1/@featureInstance.0">
+    <connectionReference context="/" source="//@componentInstance.1/@featureInstance.0" destination="//@componentInstance.3/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.3"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="capnograph.ETCO2 -> appDisplay.UpdateETCO2Thread.ETCO2" complete="true" kind="portConnection" destination="//@componentInstance.4/@componentInstance.1/@featureInstance.0" source="//@componentInstance.1/@featureInstance.0">
+    <connectionReference context="/" source="//@componentInstance.1/@featureInstance.0" destination="//@componentInstance.4/@featureInstance.1">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.9"/>
+    </connectionReference>
+    <connectionReference context="//@componentInstance.4" source="//@componentInstance.4/@featureInstance.1" destination="//@componentInstance.4/@componentInstance.1/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.0"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="capnograph.RespiratoryRate -> appLogic.UpdateRRThread.RRIn" complete="true" kind="portConnection" destination="//@componentInstance.3/@componentInstance.1/@featureInstance.0" source="//@componentInstance.1/@featureInstance.1">
+    <connectionReference context="/" source="//@componentInstance.1/@featureInstance.1" destination="//@componentInstance.3/@featureInstance.2">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.1"/>
+    </connectionReference>
+    <connectionReference context="//@componentInstance.3" source="//@componentInstance.3/@featureInstance.2" destination="//@componentInstance.3/@componentInstance.1/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.1"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="capnograph.RespiratoryRate -> appDisplay.UpdateRespiratoryRateThread.RespiratoryRate" complete="true" kind="portConnection" destination="//@componentInstance.4/@componentInstance.2/@featureInstance.0" source="//@componentInstance.1/@featureInstance.1">
+    <connectionReference context="/" source="//@componentInstance.1/@featureInstance.1" destination="//@componentInstance.4/@featureInstance.2">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.7"/>
+    </connectionReference>
+    <connectionReference context="//@componentInstance.4" source="//@componentInstance.4/@featureInstance.2" destination="//@componentInstance.4/@componentInstance.2/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.2"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="capnograph.DeviceError -> appLogic.CapnographErrorThread.CapnographError" complete="true" kind="portConnection" destination="//@componentInstance.3/@componentInstance.3/@featureInstance.0" source="//@componentInstance.1/@featureInstance.2">
+    <connectionReference context="/" source="//@componentInstance.1/@featureInstance.2" destination="//@componentInstance.3/@featureInstance.4">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.4"/>
+    </connectionReference>
+    <connectionReference context="//@componentInstance.3" source="//@componentInstance.3/@featureInstance.4" destination="//@componentInstance.3/@componentInstance.3/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.5"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="appLogic.PumpControlThread.PumpNorm -> pcaPump.PumpNormally" complete="true" kind="portConnection" destination="//@componentInstance.2/@featureInstance.0" source="//@componentInstance.3/@componentInstance.2/@featureInstance.2">
+    <connectionReference context="//@componentInstance.3" source="//@componentInstance.3/@componentInstance.2/@featureInstance.2" destination="//@componentInstance.3/@featureInstance.3">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.4"/>
+    </connectionReference>
+    <connectionReference context="/" source="//@componentInstance.3/@featureInstance.3" destination="//@componentInstance.2/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.2"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="appLogic.PumpControlThread.PumpNorm -> appDisplay.PumpStatusThread.StatusNormal" complete="true" kind="portConnection" destination="//@componentInstance.4/@componentInstance.3/@featureInstance.0" source="//@componentInstance.3/@componentInstance.2/@featureInstance.2">
+    <connectionReference context="//@componentInstance.3" source="//@componentInstance.3/@componentInstance.2/@featureInstance.2" destination="//@componentInstance.3/@featureInstance.3">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Logic.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.4"/>
+    </connectionReference>
+    <connectionReference context="/" source="//@componentInstance.3/@featureInstance.3" destination="//@componentInstance.4/@featureInstance.3">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_System.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.8"/>
+    </connectionReference>
+    <connectionReference context="//@componentInstance.4" source="//@componentInstance.4/@featureInstance.3" destination="//@componentInstance.4/@componentInstance.3/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../packages/PCA_Shutoff_Display.aadl#//@ownedPublicSection/@ownedClassifier.1/@ownedPortConnection.3"/>
+    </connectionReference>
+  </connectionInstance>
+  <systemOperationMode name="No Modes"/>
+  <componentImplementation xsi:type="aadl2:SystemImplementation" href="../packages/PCA_Shutoff_System.aadl#PCA_Shutoff.PCA_Shutoff_System.imp"/>
+</instance:SystemInstance>

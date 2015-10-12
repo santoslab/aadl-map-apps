@@ -9,11 +9,13 @@ annex EMV2
 	-- These errors aren't associated with unsafe states, but they're here for completeness
 	SpO2ValueLow : type extends MAP_Errors::WrongPhysioDataError;
 	RespiratoryRateLow : type extends MAP_Errors::WrongPhysioDataError;
+	RRLow : type extends MAP_Errors::WrongPhysioDataError;
 	ETCO2ValueHigh : type extends MAP_Errors::WrongPhysioDataError;
 	
 	-- These errors will cause the app to logic to think the patient is healthy when she isn't
 	SpO2ValueHigh : type extends MAP_Errors::WrongPhysioDataError;
 	RespiratoryRateHigh : type extends MAP_Errors::WrongPhysioDataError;
+	RRHigh : type extends MAP_Errors::WrongPhysioDataError;
 	ETCO2ValueLow : type extends MAP_Errors::WrongPhysioDataError;
 	
 	-- These are errors with devices

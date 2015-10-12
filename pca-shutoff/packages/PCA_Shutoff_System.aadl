@@ -23,8 +23,8 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 	connections
 		-- From components to logic
 		spo2_logic : port pulseOx.SpO2 -> appLogic.SpO2;
-		respiratoryrate_logic : port capnograph.RespiratoryRate -> appLogic.RespiratoryRate;
-		pumpcommand_logic : port appLogic.CommandPumpNormal -> pcaPump.PumpNormally;
+		respiratoryrate_logic : port capnograph.RespiratoryRate -> appLogic.RR;
+		pumpcommand_logic : port appLogic.CmdPumpNorm -> pcaPump.PumpNormally;
 		etco2_logic : port capnograph.ETCO2 -> appLogic.ETCO2;
 		capnograph_fail_logic : port capnograph.DeviceError -> appLogic.capnographError;
 		pulseox_fail_logic : port pulseOx.DeviceError -> appLogic.pulseOxError; 
@@ -32,7 +32,7 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		-- From components to display
 		spo2_disp : port pulseOx.SpO2 -> appDisplay.SpO2;
 		respiratoryrate_disp : port capnograph.RespiratoryRate -> appDisplay.RespiratoryRate;
-		pumpcommand_disp : port appLogic.CommandPumpNormal -> appDisplay.CommandPumpNormal;
+		pumpcommand_disp : port appLogic.CmdPumpNorm -> appDisplay.CommandPumpNormal;
 		etco2_disp : port capnograph.ETCO2 -> appDisplay.ETCO2;
 		--capnograph_fail_disp : port capnograph.DeviceError -> appDisplay.capnographError;
 		--pulseox_fail_disp : port pulseOx.DeviceError -> appDisplay.pulseOxError;

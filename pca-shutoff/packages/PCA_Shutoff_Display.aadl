@@ -6,8 +6,8 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties;
 	features
 		SpO2 : in event data port PCA_Shutoff_Types::SpO2;
 		ETCO2 : in event data port PCA_Shutoff_Types::ETCO2;
-		RespiratoryRate : in event data port PCA_Shutoff_Types::RespiratoryRate;
-		CommandPumpNormal : in event data port PCA_Shutoff_Types::PumpNormalCommand;
+		RespiratoryRate : in event data port PCA_Shutoff_Types::RR;
+		CommandPumpNormal : in event data port PCA_Shutoff_Types::PumpCmd;
 		
 		--CapnographError : in event port;
 		--PulseOxError : in event port;
@@ -58,7 +58,7 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties;
 	
 	thread UpdateRespiratoryRateThread
 	features
-		RespiratoryRate : in event data port PCA_Shutoff_Types::RespiratoryRate;
+		RespiratoryRate : in event data port PCA_Shutoff_Types::RR;
 	end UpdateRespiratoryRateThread;
 
 	thread implementation UpdateRespiratoryRateThread.imp
@@ -66,7 +66,7 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties;
 	
 	thread PumpStatusThread
 	features
-		StatusNormal : in event data port PCA_Shutoff_Types::PumpNormalCommand;
+		StatusNormal : in event data port PCA_Shutoff_Types::PumpCmd;
 	end PumpStatusThread;
 
 	thread implementation PumpStatusThread.imp
