@@ -37,8 +37,6 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 				DeviceAlarmNotSent : error source DeviceError {DeviceAlarmFailsOn};
 				DeviceAlarmErroneouslySent : error source DeviceError {DeviceAlarmFailsOff};
 		end propagations;
-		properties
-			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PatientStatus;
 	**};
 	end ICEpoInterface;
 

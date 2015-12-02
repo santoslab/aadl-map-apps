@@ -30,14 +30,13 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 				HighETCO2LeadsToOD : error path ETCO2{ETCO2ValueHigh} -> CommandPumpNormal{InadvertentPumpNormally};
 				LowRRLeadsToOD : error path RespiratoryRate{RespiratoryRateLow, RespiratoryRateHigh} -> CommandPumpNormal{InadvertentPumpNormally};
 		end propagations;
-		properties
-			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PatientStatus;
-			MAP_Error_Properties::ProtoHazard => [
-				Harm => PCA_Shutoff_Error_Properties::PatientDeath;
-				ComponentState => reference(PumpNormal);
-				EnvironmentState => reference(Risk);
-				InteractionPoints => (reference(SpO2), reference(ETCO2)); 
-			];
+--		properties
+--			MAP_Error_Properties::ProtoHazard => [
+--				Harm => PCA_Shutoff_Error_Properties::PatientDeath;
+--				ComponentState => reference(PumpNormal);
+--				EnvironmentState => reference(Risk);
+--				InteractionPoints => (reference(SpO2), reference(ETCO2)); 
+--			];
 	**};
 	end ICEpcaShutoffProcess;
 
@@ -60,7 +59,7 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 		use types PCA_Shutoff_Errors;
 		properties
 			MAP_Error_Properties::Occurrence => [
-				Kind => Providing;
+				Kind => Providing; 
 				ViolatedConstraint => PCA_Shutoff_Error_Properties::DontLetPumpRunWhenUnsafe;
 				Title => "High Physio Params";
 				Cause => [

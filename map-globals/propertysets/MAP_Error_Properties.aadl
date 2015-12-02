@@ -53,13 +53,6 @@ KindsType : type enumeration (
 	ParamsMissing, ParamsWrong, ParamsOutOfOrder
 );
 
---RelevantStates : record (
---	Harm : MAP_Error_Properties::Accident;
---	States : reference ({emv2}**error behavior state machine);
---) applies to (all);
-
-RelevantStates : MAP_Error_Properties::Accident applies to ({emv2}**error behavior state machine);
-
 -- Do we want a link to the associated notion of harm (or top-level hazard)?  If so,
 --   it makes everything more readable, but is redundant.
 ProtoHazard : record (

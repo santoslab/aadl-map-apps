@@ -22,8 +22,6 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 				DeviceAlarmNotSent : error source DeviceError {DeviceAlarmFailsOff};
 				DeviceAlarmErroneouslySent : error source DeviceError {DeviceAlarmFailsOn};
 		end propagations;
-		properties
-			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PatientStatus;
 	**};
 	end ICEcapnographInterface;
 

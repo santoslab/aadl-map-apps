@@ -11,7 +11,7 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 	system implementation PCA_Shutoff_System.imp
 	subcomponents
 		-- Physiological inputs	
-		pulseOx : device PulseOx_Interface::ICEpoInterface.imp;
+		pulseOx : device PulseOx_Interface::ICEpoInterface.imp; 
 		capnograph : device Capnograph_Interface::ICEcapnographInterface.imp;
 		
 		-- App logic

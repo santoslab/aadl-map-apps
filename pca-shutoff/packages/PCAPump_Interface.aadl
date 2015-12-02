@@ -21,8 +21,6 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 				--  more failures (within the app boundary)
 				ODCommand : error sink PumpNormally {InadvertentPumpNormally};	
 		end propagations;
-		properties
-			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PumpAction;
 	**};
 	end ICEpcaInterface;
 

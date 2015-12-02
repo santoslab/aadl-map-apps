@@ -23,8 +23,6 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties, MAP_Error_Proper
 			flows
 				HighSpO2MisleadsClinician : error sink SpO2 {SpO2ValueHigh};
 		end propagations;
-		properties
-			MAP_Error_Properties::RelevantStates => PCA_Shutoff_Error_Properties::PatientDeath applies to PatientStatus;
 	**};
 	end ICEpcaDisplayProcess;
 
