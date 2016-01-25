@@ -53,6 +53,10 @@ KindsType : type enumeration (
 	ParamsMissing, ParamsWrong, ParamsOutOfOrder
 );
 
+IntOrExtType : type enumeration (Int, Ext);
+ManifestationType : type enumeration (Spontaneous, Delay, Drop, ModifyCorrupt);
+
+
 -- Do we want a link to the associated notion of harm (or top-level hazard)?  If so,
 --   it makes everything more readable, but is redundant.
 ProtoHazard : record (
@@ -68,6 +72,30 @@ ProtoHazard : record (
 	--  org.osate.xtext.aadl2.errormodel.linking.EMLinkingService.java, lines 186-87.
 	InteractionPoints : list of reference ({emv2}**error propagation);
 ) applies to (all);
+
+
+
+Guidewords : type record (
+	LevesonGuidewords : record (
+		Controller : enumeration (A, B, C);
+		Actuator : enumeration(D, E, F);
+	);
+);
+
+DangerSpecification : type record (
+	SuccessorDanger : reference ({emv2}**error type);
+	IntOrExt : MAP_Error_Properties::IntOrExtType;
+	Guideword : MAP_Error_Properties::Guidewords;
+	CausalManifestation : MAP_Error_Properties::ManifestationType;
+	LocalEnvState : aadlstring;
+	GlobalEnvState : aadlstring;
+	Interpretation : aadlstring;
+	Name : reference ({emv2}**error type);
+	CoOccurringDangers : list of reference ({emv2}**error type);
+	Mitigation : aadlstring;
+);
+
+ComponentAnalysis: list of MAP_Error_Properties::DangerSpecification applies to (all);
 
 Occurrence : record (
 	Kind : MAP_Error_Properties::KindsType;

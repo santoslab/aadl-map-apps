@@ -21,6 +21,19 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 				--  more failures (within the app boundary)
 				ODCommand : error sink PumpNormally {InadvertentPumpNormally};	
 		end propagations;
+		properties
+			MAP_Error_Properties::ComponentAnalysis => (
+				[
+					SuccessorDanger => reference(TooMuchAnalgesic);
+					IntOrExt => Int;
+					Guideword => [LevesonGuidewords => [Controller => A;];];
+				],
+				[Guideword => 
+					[LevesonGuidewords => [Controller => A;];];
+				]
+			); -- should be Analgesic out, but we can't refer to ports here 
+			-- because XText binds to the error propagation. See
+			-- https://github.com/osate/ErrorModelV2/issues/80
 	**};
 	end ICEpcaInterface;
 

@@ -85,6 +85,13 @@ annex EMv2
 	InadequateFeedback : type extends ErrorLibrary::ItemCommission;
 	MissingFeedback : type extends ErrorLibrary::ItemOmission;
 	
+	
+	-- ================ --
+	-- Top Level Errors --
+	-- ================ --
+	
+	SystemHazard : type;
+	
 	end types;
 **};
 end MAP_Errors;
