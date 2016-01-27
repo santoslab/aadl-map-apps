@@ -5,30 +5,29 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 	process ICEpcaShutoffProcess
 	features
 		SpO2 : in event data port PCA_Shutoff_Types::SpO2;
-		-- No ETCO2 thread / connection because it's a data port
 		ETCO2 : in data port PCA_Shutoff_Types::ETCO2;
-		RespiratoryRate : in event data port PCA_Shutoff_Types::RespiratoryRate;
+		RR : in event data port PCA_Shutoff_Types::RR;
 		
 		CapnographError : in event port;
 		PulseOxError : in event port;
 		
-		CommandPumpNormal : out event data port PCA_Shutoff_Types::PumpNormalCommand;
+		CmdPumpNorm : out event data port PCA_Shutoff_Types::PumpCmd;
 	flows
-		spo2_flow: flow path SpO2 -> CommandPumpNormal;
+		spo2_flow: flow path SpO2 -> CmdPumpNorm;
 	properties
 		MAP_Properties::Process_Type => logic;
 		MAP_Properties::Component_Type => controller;
 	annex EMV2 {** 
- 		use types PCA_Shutoff_Errors;
+		use types PCA_Shutoff_Errors;
 		error propagations
 			SpO2 : in propagation {SpO2ValueHigh};
 			ETCO2 : in propagation {ETCO2ValueHigh};
-			RespiratoryRate : in propagation {RespiratoryRateLow, RespiratoryRateHigh};
-			CommandPumpNormal : out propagation {InadvertentPumpNormally};
+			RR : in propagation {RespiratoryRateLow, RespiratoryRateHigh};
+			CmdPumpNorm : out propagation {InadvertentPumpNormally};
 			flows
-				HighSpO2LeadsToOD : error path SpO2{SpO2ValueHigh} -> CommandPumpNormal{InadvertentPumpNormally};
-				HighETCO2LeadsToOD : error path ETCO2{ETCO2ValueHigh} -> CommandPumpNormal{InadvertentPumpNormally};
-				LowRRLeadsToOD : error path RespiratoryRate{RespiratoryRateLow, RespiratoryRateHigh} -> CommandPumpNormal{InadvertentPumpNormally};
+				HighSpO2LeadsToOD : error path SpO2{SpO2ValueHigh} -> CmdPumpNorm{InadvertentPumpNormally};
+				HighETCO2LeadsToOD : error path ETCO2{ETCO2ValueHigh} -> CmdPumpNorm{InadvertentPumpNormally};
+				LowRRLeadsToOD : error path RR{RespiratoryRateLow, RespiratoryRateHigh} -> CmdPumpNorm{InadvertentPumpNormally};
 		end propagations;
 --		properties
 --			MAP_Error_Properties::ProtoHazard => [
@@ -43,16 +42,18 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 	process implementation ICEpcaShutoffProcess.imp
 	subcomponents
 		UpdateSpO2Thread : thread UpdateSpO2Thread.imp;
-		UpdateRespiratoryRateThread : thread UpdateRespiratoryRateThread.imp;
+		UpdateRRThread : thread UpdateRRThread.imp;
 		PumpControlThread : thread PumpControlThread.imp;
 		
 		CapnographErrorThread : thread CapnographErrorThread.imp;
 		PulseOxErrorThread : thread PulseOxErrorThread.imp;
 	connections
-		incoming_spo2 : port SpO2 -> UpdateSpO2Thread.SpO2;
-		incoming_rr : port RespiratoryRate -> UpdateRespiratoryRateThread.RespiratoryRate;
-		outgoing_pump_command : port PumpControlThread.PumpNormal -> CommandPumpNormal;
-		
+		incoming_spo2 : port SpO2 -> UpdateSpO2Thread.SpO2In;
+		incoming_rr : port RR -> UpdateRRThread.RRIn;
+		rr_to_pump_ctrl : port UpdateRRThread.RROut -> PumpControlThread.RR;
+		spo2_to_pump_ctrl : port UpdateSpO2Thread.SpO2Out -> PumpControlThread.SpO2;
+		outgoing_pump_command : port PumpControlThread.PumpNorm -> CmdPumpNorm;
+	
 		incoming_capnograph_error : port CapnographError -> CapnographErrorThread.CapnographError;
 		incoming_pulseox_error : port PulseOxError -> PulseOxErrorThread.PulseOxError;
 	annex EMV2 {**
@@ -69,27 +70,32 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 				Compensation => "Physiological values are cross-checked with others";
 			] applies to outgoing_pump_command;
 	**};
+
 	end ICEpcaShutoffProcess.imp;
 	
 	thread UpdateSpO2Thread
 	features
-		SpO2 : in event data port PCA_Shutoff_Types::SpO2;
+		SpO2In : in event data port PCA_Shutoff_Types::SpO2;
+		SpO2Out : out event data port PCA_Shutoff_Types::SpO2;
 	end UpdateSpO2Thread;
 	
 	thread implementation UpdateSpO2Thread.imp
 	end UpdateSpO2Thread.imp;
 	
-	thread UpdateRespiratoryRateThread
+	thread UpdateRRThread
 	features
-		RespiratoryRate : in event data port PCA_Shutoff_Types::RespiratoryRate;
-	end UpdateRespiratoryRateThread;
+		RRIn : in event data port PCA_Shutoff_Types::RR;
+		RROut : out event data port PCA_Shutoff_Types::RR;
+	end UpdateRRThread;
 
-	thread implementation UpdateRespiratoryRateThread.imp
-	end UpdateRespiratoryRateThread.imp;
+	thread implementation UpdateRRThread.imp
+	end UpdateRRThread.imp;
 	
 	thread PumpControlThread
 	features
-		PumpNormal : out event data port PCA_Shutoff_Types::PumpNormalCommand;
+		RR : in event data port PCA_Shutoff_Types::RR;
+		SpO2 : in event data port PCA_Shutoff_Types::SpO2;
+		PumpNorm : out event data port PCA_Shutoff_Types::PumpCmd;
 	properties
 		Thread_Properties::Dispatch_Protocol => Periodic;
 	end PumpControlThread;

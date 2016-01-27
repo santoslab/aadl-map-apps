@@ -8,7 +8,6 @@ annex EMV2
 	error types
 		TooMuchAnalgesic : type extends MAP_Errors::SystemHazard;
 	
-	
 		InadvertentPumpNormally : type extends MAP_Errors::InappropriateControlAction;
 		
 		-- Should this be inadequate sensor operation? Or inadequate feedback?

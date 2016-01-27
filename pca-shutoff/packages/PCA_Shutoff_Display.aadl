@@ -6,11 +6,11 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties, MAP_Error_Proper
 	features
 		SpO2 : in event data port PCA_Shutoff_Types::SpO2;
 		ETCO2 : in event data port PCA_Shutoff_Types::ETCO2;
-		RespiratoryRate : in event data port PCA_Shutoff_Types::RespiratoryRate;
-		CommandPumpNormal : in event data port PCA_Shutoff_Types::PumpNormalCommand;
+		RespiratoryRate : in event data port PCA_Shutoff_Types::RR;
+		CommandPumpNormal : in event data port PCA_Shutoff_Types::PumpCmd;
 		
-		CapnographError : in event port;
-		PulseOxError : in event port;
+		--CapnographError : in event port;
+		--PulseOxError : in event port;
 		
 		show : out feature; -- You can add a type
 	properties
@@ -34,6 +34,7 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties, MAP_Error_Proper
 		PumpStatusThread : thread PumpStatusThread.imp;
 		
 	connections
+		incoming_etco2 : port ETCO2 -> UpdateETCO2Thread.ETCO2;
 		incoming_spo2 : port SpO2 -> UpdateSpO2Thread.SpO2;
 		incoming_rr : port RespiratoryRate -> UpdateRespiratoryRateThread.RespiratoryRate;
 		incoming_pump_command : port CommandPumpNormal -> PumpStatusThread.StatusNormal;
@@ -58,7 +59,7 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties, MAP_Error_Proper
 	
 	thread UpdateRespiratoryRateThread
 	features
-		RespiratoryRate : in event data port PCA_Shutoff_Types::RespiratoryRate;
+		RespiratoryRate : in event data port PCA_Shutoff_Types::RR;
 	end UpdateRespiratoryRateThread;
 
 	thread implementation UpdateRespiratoryRateThread.imp
@@ -66,7 +67,7 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties, MAP_Error_Proper
 	
 	thread PumpStatusThread
 	features
-		StatusNormal : in event data port PCA_Shutoff_Types::PumpNormalCommand;
+		StatusNormal : in event data port PCA_Shutoff_Types::PumpCmd;
 	end PumpStatusThread;
 
 	thread implementation PumpStatusThread.imp
