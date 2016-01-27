@@ -18,6 +18,9 @@ with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors;
 	Death : constant MAP_Error_Properties::Accident_Level => [
 		Level => 1;
 		Description => "Results in the death of a human";
+		Explanations => (
+			"We note that this aligns with, eg, 'Catastrophic' as defined in ISO 14971's Table D.3"
+		);
 	];
 	
 	-- =================================
