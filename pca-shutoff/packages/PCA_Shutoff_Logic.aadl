@@ -50,8 +50,8 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 	connections
 		incoming_spo2 : port SpO2 -> UpdateSpO2Thread.SpO2In;
 		incoming_rr : port RR -> UpdateRRThread.RRIn;
-		rr_to_pump_ctrl : port UpdateRRThread.RROut -> PumpControlThread.RR;
-		spo2_to_pump_ctrl : port UpdateSpO2Thread.SpO2Out -> PumpControlThread.SpO2;
+		--rr_to_pump_ctrl : port UpdateRRThread.RROut -> PumpControlThread.RR;
+		--spo2_to_pump_ctrl : port UpdateSpO2Thread.SpO2Out -> PumpControlThread.SpO2;
 		outgoing_pump_command : port PumpControlThread.PumpNorm -> CmdPumpNorm;
 	
 		incoming_capnograph_error : port CapnographError -> CapnographErrorThread.CapnographError;
