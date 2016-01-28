@@ -31,6 +31,7 @@ Accident : type record (
 );
 
 Hazard: type record (
+	Name : aadlstring;
 	Description : aadlstring;
 	Accident : MAP_Error_Properties::Accident;
 	HazardousFactor : aadlstring;

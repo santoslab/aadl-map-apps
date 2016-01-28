@@ -6,6 +6,8 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 		ETCO2 : out event data port PCA_Shutoff_Types::ETCO2;
 		RespiratoryRate : out event data port PCA_Shutoff_Types::RespiratoryRate;
 		DeviceError : out event port;
+		
+		Breath : in feature;
 	properties
 		MAP_Properties::Component_Type => sensor;
 	annex EMV2 {** 

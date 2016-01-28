@@ -6,6 +6,7 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 		-- Whether or not the pump should run at a normal rate (for some
 		--  period of time -- it's a ticket-based system)
 		PumpNormally : in event data port PCA_Shutoff_Types::PumpNormalCommand;
+		DrugFlow : out feature;
 	flows
 		spo2_flow : flow sink PumpNormally;
 	properties

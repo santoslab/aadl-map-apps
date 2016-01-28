@@ -3,9 +3,14 @@ public
 with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic, 
 	PCA_Shutoff_Properties, MAP_Error_Properties, PCA_Shutoff_Display,
 	PCA_Shutoff_Errors, Capnograph_Interface, MAP_Errors,
-	PCA_Shutoff_Error_Properties, MAP_Properties;
+	PCA_Shutoff_Error_Properties, MAP_Properties, PCA_Shutoff_Patient;
 	
 	system PCA_Shutoff_System
+	features
+		-- Between app-defined system and patient
+		administer : out feature;
+		pulseox_measure : in feature;
+		capnograph_measure : in feature;
 	end PCA_Shutoff_System;
 
 	system implementation PCA_Shutoff_System.imp
@@ -20,7 +25,15 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		
 		-- Controlled device
 		pcaPump : device PCAPump_Interface::ICEpcaInterface.imp;
+
+		-- The patient
+		patient : abstract PCA_Shutoff_Patient::PCA_Shutoff_Patient;
 	connections
+		-- From the patient to the devices		
+		IVLine : feature pcaPump.DrugFlow -> patient.vein;
+		pulseOx_measurement : feature patient.fingerclip -> pulseOx.RefractedLight;  
+		capnograph_measurement : feature patient.exhalation -> capnograph.Breath;
+		
 		-- From components to logic
 		spo2_logic : port pulseOx.SpO2 -> appLogic.SpO2;
 		respiratoryrate_logic : port capnograph.RespiratoryRate -> appLogic.RespiratoryRate;
@@ -43,8 +56,15 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 									pumpcommand_logic -> 
 									pcaPump.spo2_flow;
 	properties
-		MAP_Properties::Component_Type => controller;
-	annex EMV2 {**
+		MAP_Properties::Component_Type => aggregation;
+--		PropertyName :
+--			MAP_Error_Properties::Hazardq => [
+--				Description => "The pump is ordered to run normally when it should not.";
+--				Accident => PCA_Shutoff_Error_Properties::PatientDeath;
+--				HazardousFactor => "Analgesic"; 
+--				SystemElement => reference(pcaPump); 
+--			]; 
+	annex EMV2 {** 
 		use types PCA_Shutoff_Errors;
 		connection error
 			pulseox_dc : error source spo2_logic {InadvertentPumpNormally};

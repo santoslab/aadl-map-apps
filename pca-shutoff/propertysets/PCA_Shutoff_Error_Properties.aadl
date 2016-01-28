@@ -1,5 +1,5 @@
 property set PCA_Shutoff_Error_Properties is
-with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors;
+with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors, PCA_Shutoff_Logic, PCA_Shutoff;
 
 	Context : constant MAP_Error_Properties::Context => "Example context";
 	
@@ -37,11 +37,20 @@ with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors;
 	-- Hazards
 	-- =================================
 	
-	InadvertentPumpNormally : constant MAP_Error_Properties::Hazard => [
+	InadvertentPumpNormally : MAP_Error_Properties::Hazard => [
 		Description => "The pump is ordered to run normally when it should not.";
 		Accident => PCA_Shutoff_Error_Properties::PatientDeath;
-	];
-		
+		HazardousFactor => "Analgesic"; 
+--		SystemElement => reference(PCA_Shutoff::PCA_Shutoff_System.imp::appLogic); 
+	] applies to (PCA_Shutoff::PCA_Shutoff_System.imp); 
+	
+--			MAP_Error_Properties::Hazard => [
+--				Description => "The pump is ordered to run normally when it should not.";
+--				Accident => PCA_Shutoff_Error_Properties::PatientDeath;
+--				HazardousFactor => "Analgesic"; 
+--				SystemElement => reference(pcaPump); 
+--			] applies to (PCA_Shutoff::PCA_Shutoff_System); 
+	
 	BadInfoGiven : constant MAP_Error_Properties::Hazard => [
 		Description => "Incorrect information is sent to the display.";
 		Accident => PCA_Shutoff_Error_Properties::PatientDeath;

@@ -1,8 +1,13 @@
 package PCA_Shutoff_Patient
 public
+	with MAP_Properties;
 	abstract PCA_Shutoff_Patient
 	features
-		analgesic : feature group;		
+		vein : in feature;
+		fingerclip : out feature;
+		exhalation : out feature;
+	properties
+		MAP_Properties::Component_Type => controlled_process;
 	end PCA_Shutoff_Patient;
 	
 	abstract implementation PCA_Shutoff_Patient.imp

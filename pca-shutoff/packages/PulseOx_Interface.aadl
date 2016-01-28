@@ -9,6 +9,8 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 		SpO2 : out event data port PCA_Shutoff_Types::SpO2;
 		-- A port to notify the app if something is wrong with the device
 		DeviceError : out event port;
+		
+		RefractedLight : in feature;
 	flows
 		spo2_flow : flow source SpO2;
 	properties
