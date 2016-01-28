@@ -4,7 +4,7 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 	device ICEcapnographInterface
 	features
 		ETCO2 : out event data port PCA_Shutoff_Types::ETCO2;
-		RespiratoryRate : out event data port PCA_Shutoff_Types::RespiratoryRate;
+		RespiratoryRate : out event data port PCA_Shutoff_Types::RR;
 		DeviceError : out event port;
 		
 		Breath : in feature;
