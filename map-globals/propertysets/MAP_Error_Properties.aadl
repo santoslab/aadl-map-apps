@@ -69,7 +69,7 @@ KindsType : type enumeration (
 );
 
 IntOrExtType : type enumeration (Int, Ext);
-ManifestationType : type enumeration (Spontaneous, Delay, Drop, ModifyCorrupt);
+--ManifestationType : type enumeration (Spontaneous, Delay, Drop, ModifyCorrupt);
 
 
 -- Do we want a link to the associated notion of harm (or top-level hazard)?  If so,
@@ -96,21 +96,21 @@ Guidewords : type record (
 		Actuator : enumeration(D, E, F);
 	);
 );
+--
+--DangerSpecification : type record (
+--	SuccessorDanger : reference ({emv2}**error type);
+--	IntOrExt : MAP_Error_Properties::IntOrExtType;
+--	Guideword : MAP_Error_Properties::Guidewords;
+--	CausalManifestation : MAP_Error_Properties::ManifestationType;
+--	LocalEnvState : aadlstring;
+--	GlobalEnvState : aadlstring;
+--	Interpretation : aadlstring;
+--	Name : reference ({emv2}**error type);
+--	CoOccurringDangers : list of reference ({emv2}**error type);
+--	Mitigation : aadlstring;
+--);
 
-DangerSpecification : type record (
-	SuccessorDanger : reference ({emv2}**error type);
-	IntOrExt : MAP_Error_Properties::IntOrExtType;
-	Guideword : MAP_Error_Properties::Guidewords;
-	CausalManifestation : MAP_Error_Properties::ManifestationType;
-	LocalEnvState : aadlstring;
-	GlobalEnvState : aadlstring;
-	Interpretation : aadlstring;
-	Name : reference ({emv2}**error type);
-	CoOccurringDangers : list of reference ({emv2}**error type);
-	Mitigation : aadlstring;
-);
-
-ComponentAnalysis: list of MAP_Error_Properties::DangerSpecification applies to (all);
+--ComponentAnalysis: list of MAP_Error_Properties::DangerSpecification applies to (all);
 
 Occurrence : record (
 	Kind : MAP_Error_Properties::KindsType;
@@ -122,5 +122,15 @@ Occurrence : record (
 	);
 	Compensation : aadlstring;	
 ) applies to (port connection, {emv2}**connection error source);
+
+ManifestationType : type enumeration(
+	Content, ContentHigh, ContentLow,
+	Halted,
+	Erratic,
+	TimingEarly,
+	TimingLate
+);
+
+Manifestation : MAP_Error_Properties::ManifestationType applies to ({emv2}**error propagation);
 
 end MAP_Error_Properties;

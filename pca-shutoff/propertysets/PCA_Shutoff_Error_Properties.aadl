@@ -37,12 +37,12 @@ with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors, PCA_Shutoff_Logic, PCA_Shut
 	-- Hazards
 	-- =================================
 	
-	InadvertentPumpNormally : MAP_Error_Properties::Hazard => [
+	InadvertentPumpNormally : constant MAP_Error_Properties::Hazard => [
 		Description => "The pump is ordered to run normally when it should not.";
 		Accident => PCA_Shutoff_Error_Properties::PatientDeath;
 		HazardousFactor => "Analgesic"; 
 --		SystemElement => reference(PCA_Shutoff::PCA_Shutoff_System.imp::appLogic); 
-	] applies to (PCA_Shutoff::PCA_Shutoff_System.imp); 
+	]; 
 	
 --			MAP_Error_Properties::Hazard => [
 --				Description => "The pump is ordered to run normally when it should not.";

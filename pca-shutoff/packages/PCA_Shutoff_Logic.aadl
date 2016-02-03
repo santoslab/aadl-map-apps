@@ -29,7 +29,9 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 				HighETCO2LeadsToOD : error path ETCO2{ETCO2ValueHigh} -> CmdPumpNorm{InadvertentPumpNormally};
 				LowRRLeadsToOD : error path RR{RespiratoryRateLow, RespiratoryRateHigh} -> CmdPumpNorm{InadvertentPumpNormally};
 		end propagations;
---		properties
+		properties
+			MAP_Error_Properties::Manifestation => ContentHigh applies to SpO2;
+				
 --			MAP_Error_Properties::ProtoHazard => [
 --				Harm => PCA_Shutoff_Error_Properties::PatientDeath;
 --				ComponentState => reference(PumpNormal);
