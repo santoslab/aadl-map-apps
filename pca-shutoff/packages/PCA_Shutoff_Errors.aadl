@@ -33,6 +33,28 @@ annex EMV2
 		PumpNormal : initial state;
 		PumpMinimal : state;
 	end behavior;
+	
+	error behavior AppStatus
+	states
+		Normal : initial state;
+		DetectedError : state;
+		UndetectedError : state;
+	end behavior;
+	
+--	error behavior Example
+--	use types PCA_Shutoff_Errors;
+--	events
+--		Fault: error event {MyFault};
+--		SelfRepair: recover event;
+--	states
+--		Operational: initial state;
+--		FailTransient: state {DetectedFault};
+--		FailPermanent: state {MyFault};
+--	transitions
+--		SelfFail: Operational -[Fault{DetectedFault}]-> (FailPermanent with 0.7, FailTransient with 0.3);
+--		Recovery: FailTransient –[SelfRepair]-> Operational;
+--		UncoveredFail: Operational -[Fault{UndetectedFault}]-> FailPermanent;
+--	end behavior;
 **};
 
 end PCA_Shutoff_Errors;

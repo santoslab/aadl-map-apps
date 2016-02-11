@@ -127,10 +127,15 @@ ManifestationType : type enumeration(
 	Content, ContentHigh, ContentLow,
 	Halted,
 	Erratic,
-	TimingEarly,
-	TimingLate
+	TimingEarly, TimingLate,
+	ClearText
 );
 
 Manifestation : MAP_Error_Properties::ManifestationType applies to ({emv2}**error propagation);
+
+ProcessModel : record(
+	name : aadlstring;
+	values : list of aadlstring;
+) applies to (classifier);
 
 end MAP_Error_Properties;
