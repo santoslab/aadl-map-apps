@@ -17,15 +17,11 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 	properties
 		MAP_Properties::Process_Type => logic;
 		MAP_Properties::Component_Type => controller;
-		MAP_Error_Properties::ProcessModel => [
-			name => "PatientStatus";
-			values => ("Healthy", "AtRisk", "Overdosed");
-		];
 	annex EMV2 {** 
 		use types PCA_Shutoff_Errors;
 		use behavior PCA_Shutoff_Errors::AppStatus;
 		error propagations
-			SpO2 : in propagation {SpO2ValueHigh};
+			SpO2 : in propagation {SpO2ValueHigh, SpO2ValueLow};
 			ETCO2 : in propagation {ETCO2ValueHigh};
 			RR : in propagation {RespiratoryRateLow, RespiratoryRateHigh};
 			CmdPumpNorm : out propagation {InadvertentPumpNormally};
@@ -35,27 +31,17 @@ with PCA_Shutoff_Types, PCA_Shutoff_Properties, MAP_Properties, MAP_Error_Proper
 				LowRRLeadsToOD : error path RR{RespiratoryRateLow, RespiratoryRateHigh} -> CmdPumpNorm{InadvertentPumpNormally};
 		end propagations;
 		component error behavior
-			events
-				BadSpO2: error event {SpO2ValueHigh};
-				BadETCO2 : error event {ETCO2ValueHigh};
-				BadRR : error event {RespiratoryRateHigh};
-				Dubs : error event {SpO2ValueHigh, ETCO2ValueHigh};
-				AllBad : error event {SpO2ValueHigh, ETCO2ValueHigh, RespiratoryRateHigh};
-			transitions
-				SingleFailure : Normal -[ BadSpO2 or BadETCO2 or BadRR ]-> DetectedError;
-				DoubleFailure : Normal -[ Dubs ]-> DetectedError;
-				SimultaneousFailure : Normal -[ AllBad ]-> UndetectedError;
+			--events
+				-- Faults go here
+			propagations
+				derp: Normal -[ SpO2{SpO2ValueHigh} ]-> CmdPumpNorm{InadvertentPumpNormally};
+			--detections
 		end component;
 		properties
-			MAP_Error_Properties::Manifestation => ContentHigh applies to SpO2;
-	
-				
---			MAP_Error_Properties::ProtoHazard => [
---				Harm => PCA_Shutoff_Error_Properties::PatientDeath;
---				ComponentState => reference(PumpNormal);
---				EnvironmentState => reference(Risk);
---				InteractionPoints => (reference(SpO2), reference(ETCO2)); 
---			];
+			MAP_Error_Properties::ProcessModel => ([
+				Name => "Patient Status";
+				Values => (reference(AppPM_Healthy), reference(AppPM_AtRisk), reference(AppPM_Overdosed));
+			]);
 	**};
 	end ICEpcaShutoffProcess;
 

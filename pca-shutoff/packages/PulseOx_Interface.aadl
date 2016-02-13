@@ -28,16 +28,11 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 			-- Additionally, the logic components are not error sinks for the
 			--  the type, in that they don't provide compensatory actions  
 			SpO2 : not out propagation {SpO2ValueLow};
-			-- Device alarms can either be sent when they shouldn't, or not 
-			--  sent when they should be
-			DeviceError : out propagation {DeviceAlarmFailsOn, DeviceAlarmFailsOff};
 			-- Specify (and name) the sources for error flows.  This is sort of
 			--  uninteresting in device interfaces, but is useful for other
 			--  analyses
 			flows
 				SpO2UnDetectableHighValueFlowSource : error source SpO2 {SpO2ValueHigh};
-				DeviceAlarmNotSent : error source DeviceError {DeviceAlarmFailsOn};
-				DeviceAlarmErroneouslySent : error source DeviceError {DeviceAlarmFailsOff};
 		end propagations;
 	**};
 	end ICEpoInterface;

@@ -22,120 +22,40 @@ Accident_Level : type record (
 	Level : aadlinteger;
 	Description: aadlstring;
 	Explanations : list of aadlstring;
+	Accidents : list of MAP_Error_Properties::Accident;
 );
 
 Accident : type record (
 	Description : aadlstring;
-	Level : MAP_Error_Properties::Accident_Level;
 	Explanations : list of aadlstring;
+	Hazards : list of MAP_Error_Properties::Hazard;
 );
 
 Hazard: type record (
 	Name : aadlstring;
 	Description : aadlstring;
-	Accident : MAP_Error_Properties::Accident;
 	HazardousFactor : aadlstring;
 	SystemElement : reference (device, process);
-	SystemElementState : aadlstring;
+	SystemElementState : reference({emv2}** error type, {emv2}** error type set);
 	EnvironmentElement : reference (abstract);
-	EnvironmentElementState : aadlstring;
+	EnvironmentElementStates : list of reference({emv2}** error type);
 	Explanations : list of aadlstring;
+	Constraints : list of MAP_Error_Properties::Constraint;
 );
 
 Constraint: type record (
+	Name : aadlstring;
 	Description : aadlstring;
-	Hazard : MAP_Error_Properties::Hazard;
-	HazardousFactor : aadlstring;
-	SystemElement : reference (device, process);
-	SystemElementState : aadlstring;
-	EnvironmentElement : reference (abstract);
-	EnvironmentElementState : aadlstring;
-	Explanations : list of aadlstring;
+	ErrorType : reference({emv2}** error type);
 );
 
--- ============================ --
--- Types related to STPA step 1 --
--- ============================ --
+Fundamentals : list of MAP_Error_Properties::Accident_Level applies to (all);
 
-KindsType : type enumeration (
-	-- From Tbl 8.4 in Engineering a Safer World
-	NotProviding, Providing, Early, Late, AppliedTooLong, StoppedTooSoon, 
-	
-	-- [Where are these from?]
-	ValueLow, ValueHigh, 
-	
-	-- [Paper for Complex Parameters]
-	ParamsMissing, ParamsWrong, ParamsOutOfOrder
+ProcessVariable : type record (
+	Name : aadlstring;
+	Values : list of reference({emv2}** error type);	
 );
 
-IntOrExtType : type enumeration (Int, Ext);
---ManifestationType : type enumeration (Spontaneous, Delay, Drop, ModifyCorrupt);
-
-
--- Do we want a link to the associated notion of harm (or top-level hazard)?  If so,
---   it makes everything more readable, but is redundant.
-ProtoHazard : record (
-	Harm : MAP_Error_Properties::Accident;
-	-- An abstract state of this component relevant to an identified notion of harm
-	ComponentState : reference ({emv2}**error behavior state);
-	-- A state of this component's environment relevant to an identified notion of harm
-	EnvironmentState : reference ({emv2}**error behavior state);
-	-- The information required by this component to avoid this protohazard is the state of the environment.
-	--  We want to identify the interaction points through which this information enters the component.
-	--  Unfortunately, due to AADL's implementation (though it seems to be by design?), we cannot refer to
-	--  features in reference properties in EMV2 -- we can only refer to propagation points. See 
-	--  org.osate.xtext.aadl2.errormodel.linking.EMLinkingService.java, lines 186-87.
-	InteractionPoints : list of reference ({emv2}**error propagation);
-) applies to (all);
-
-
-
-Guidewords : type record (
-	LevesonGuidewords : record (
-		Controller : enumeration (A, B, C);
-		Actuator : enumeration(D, E, F);
-	);
-);
---
---DangerSpecification : type record (
---	SuccessorDanger : reference ({emv2}**error type);
---	IntOrExt : MAP_Error_Properties::IntOrExtType;
---	Guideword : MAP_Error_Properties::Guidewords;
---	CausalManifestation : MAP_Error_Properties::ManifestationType;
---	LocalEnvState : aadlstring;
---	GlobalEnvState : aadlstring;
---	Interpretation : aadlstring;
---	Name : reference ({emv2}**error type);
---	CoOccurringDangers : list of reference ({emv2}**error type);
---	Mitigation : aadlstring;
---);
-
---ComponentAnalysis: list of MAP_Error_Properties::DangerSpecification applies to (all);
-
-Occurrence : record (
-	Kind : MAP_Error_Properties::KindsType;
-	ViolatedConstraint : MAP_Error_Properties::Constraint;
-	Title : aadlstring;
-	Cause : record (
-		ErrorType : reference ({emv2}**error type);
-		Description : aadlstring;
-	);
-	Compensation : aadlstring;	
-) applies to (port connection, {emv2}**connection error source);
-
-ManifestationType : type enumeration(
-	Content, ContentHigh, ContentLow,
-	Halted,
-	Erratic,
-	TimingEarly, TimingLate,
-	ClearText
-);
-
-Manifestation : MAP_Error_Properties::ManifestationType applies to ({emv2}**error propagation);
-
-ProcessModel : record(
-	name : aadlstring;
-	values : list of aadlstring;
-) applies to (classifier);
+ProcessModel : list of MAP_Error_Properties::ProcessVariable applies to (all);
 
 end MAP_Error_Properties;

@@ -1,38 +1,50 @@
 package PCA_Shutoff_Errors
 public
-with MAP_Errors, PCA_Shutoff_Error_Properties, MAP_Error_Properties,
-	PCA_Shutoff;
+with MAP_Errors;
 
 annex EMV2
 {**
 	error types
-		TooMuchAnalgesic : type extends MAP_Errors::SystemHazard;
+		-- =================== --
+		-- Process Model Types --
+		-- =================== --
+		
+		-- Controlled Process: Patient
+		Healthy : type extends MAP_Errors::ProcessModel;
+		AtRisk : type extends MAP_Errors::ProcessModel;
+		Overdosed : type extends MAP_Errors::ProcessModel;
+		
+		-- App Logic
+		AppPM_Healthy : type extends Healthy;
+		AppPM_AtRisk : type extends AtRisk;
+		AppPM_Overdosed : type extends Overdosed;
+		
+		-- Pump
+		Pumping : type extends Healthy;
+		NotPumping : type set{AtRisk, Overdosed};
+		
+		-- ==================== --
+		-- Violated Constraints --
+		-- ==================== --
+		
+		OverdosedPatient : type extends MAP_Errors::ViolatedConstraint;
+		
+		-- =========== --
+		-- Error Types --
+		-- =========== --	
 	
-		InadvertentPumpNormally : type extends MAP_Errors::InappropriateControlAction;
+		TooMuchAnalgesic : type extends MAP_Errors::Erratic;
+	
+		InadvertentPumpNormally : type extends MAP_Errors::Erratic;
 		
 		-- Should this be inadequate sensor operation? Or inadequate feedback?
-		SpO2ValueHigh : type extends MAP_Errors::InadequateSensorOperation;
-		SpO2ValueLow : type extends MAP_Errors::InadequateSensorOperation;
-		ETCO2ValueLow : type extends MAP_Errors::InadequateSensorOperation;
-		ETCO2ValueHigh : type extends MAP_Errors::InadequateSensorOperation;
-		RespiratoryRateLow : type extends MAP_Errors::InadequateSensorOperation;
-		RespiratoryRateHigh : type extends MAP_Errors::InadequateSensorOperation;
-		DeviceAlarmFailsOn : type extends MAP_Errors::InadequateSensorOperation;
-		DeviceAlarmFailsOff : type extends MAP_Errors::InadequateSensorOperation;
+		SpO2ValueHigh : type extends MAP_Errors::High;
+		SpO2ValueLow : type extends MAP_Errors::Low;
+		ETCO2ValueLow : type extends MAP_Errors::Low;
+		ETCO2ValueHigh : type extends MAP_Errors::High;
+		RespiratoryRateLow : type extends MAP_Errors::Low;
+		RespiratoryRateHigh : type extends MAP_Errors::High;
 	end types;
-	
-	error behavior PatientStatus
-	states 
-		Healthy : initial state;
-		Risk : state;
-		Overdose : state;
-	end behavior;
-	
-	error behavior PumpAction
-	states
-		PumpNormal : initial state;
-		PumpMinimal : state;
-	end behavior;
 	
 	error behavior AppStatus
 	states
@@ -40,21 +52,6 @@ annex EMV2
 		DetectedError : state;
 		UndetectedError : state;
 	end behavior;
-	
---	error behavior Example
---	use types PCA_Shutoff_Errors;
---	events
---		Fault: error event {MyFault};
---		SelfRepair: recover event;
---	states
---		Operational: initial state;
---		FailTransient: state {DetectedFault};
---		FailPermanent: state {MyFault};
---	transitions
---		SelfFail: Operational -[Fault{DetectedFault}]-> (FailPermanent with 0.7, FailTransient with 0.3);
---		Recovery: FailTransient –[SelfRepair]-> Operational;
---		UncoveredFail: Operational -[Fault{UndetectedFault}]-> FailPermanent;
---	end behavior;
 **};
 
 end PCA_Shutoff_Errors;

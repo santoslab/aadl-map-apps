@@ -16,13 +16,10 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 			ETCO2 : out propagation {ETCO2ValueHigh};
 			ETCO2 : not out propagation {ETCO2ValueLow};
 			RespiratoryRate : out propagation {RespiratoryRateLow, RespiratoryRateHigh};
-			DeviceError : out propagation {DeviceAlarmFailsOn, DeviceAlarmFailsOff};
 			flows
 				ETCO2UnDetectableHighValueFlowSource : error source ETCO2 {ETCO2ValueHigh};
 				RRUnDetectableHighValueFlowSource : error source RespiratoryRate {RespiratoryRateHigh};
 				RRUnDetectableLowValueFlowSource : error source RespiratoryRate {RespiratoryRateLow};
-				DeviceAlarmNotSent : error source DeviceError {DeviceAlarmFailsOff};
-				DeviceAlarmErroneouslySent : error source DeviceError {DeviceAlarmFailsOn};
 		end propagations;
 	**};
 	end ICEcapnographInterface;

@@ -13,7 +13,6 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 		MAP_Properties::Component_Type => actuator;
 	annex EMV2 {**
  		use types PCA_Shutoff_Errors;
-		use behavior PCA_Shutoff_Errors::PumpAction;
 		error propagations
 			-- Incorrect tickets could arrive via the PumpNormally port
 			PumpNormally : in propagation {InadvertentPumpNormally};

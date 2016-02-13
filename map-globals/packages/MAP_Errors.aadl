@@ -3,94 +3,31 @@ public
 annex EMv2
 {**
 	error types
+	
+	-- We (ab)use the EMV2 type system to modle process variables and their values.
+	-- These values shouldn't be used as normal errors, and we use this type at the root
+	-- of the hierarchy to enforce that distinction. 
+	ProcessModel : type;
+	
 	-- Type extension is used throughout this library (rather than renaming) to
 	-- avoid aliasing
 	
-	-- ============================= --
-	-- Errors Related to Controllers --
-	-- ============================= --
+	Content : type;
+	High : type extends Content;
+	Low : type extends Content;
 	
-	-- Problems with control input or external information
-	ControlInputWrong : type extends ErrorLibrary::ItemCommission;
-	ControlInputMissing : type extends ErrorLibrary::ItemOmission;
+	Timing : type;
+	Early : type extends Timing;
+	Late : type extends Timing;
 	
-	-- Problems with the control algorithm
-	IncorrectlyBuiltControlAlgorithm : type extends ErrorLibrary::ServiceError; -- "Flaws in creation"
-	OutdatedControlAlgorithm : type extends ErrorLibrary::ServiceError; -- "Process Changes"
-	IncorrectlyModifiedControlAlgorithm  : type extends ErrorLibrary::ServiceError;
+	Halted : type;
+	Erratic : type;
 	
-	-- Problems with the controller's process model
-	ProcessModelInconsistent : type extends ErrorLibrary::ServiceError;
-	ProcessModelIncomplete : type extends ErrorLibrary::ServiceError;
-	ProcessModelIncorrect : type extends ErrorLibrary::ServiceError;
+	Cleartext : type;
 	
-	-- ==================================================== --
-	-- Errors Related to Controller -> Actuator Connections --
-	-- ==================================================== --
-	
-	InappropriateControlAction : type extends ErrorLibrary::SequenceCommission;
-	IneffectiveControlAction : type extends ErrorLibrary::ServiceError;
-	MissingControlAction : type extends ErrorLibrary::ItemOmission;
-	
-	-- =========================== --
-	-- Errors Related to Actuators --
-	-- =========================== --
-	
-	InadequateActuatorOperation : type extends ErrorLibrary::ServiceError;
-	
-	-- ============================================================ --
-	-- Errors Related to Actuator -> Controlled Process Connections --
-	-- ============================================================ --
-	
-	DelayedOperation : type extends ErrorLibrary::LateDelivery;
-	
-	-- ====================================== --
-	-- Errors Related to Controlled Processes --
-	-- ====================================== --
-	
-	-- Problems where the controlled process itself fails
-	ComponentFailure : type; -- ServiceOmission
-	ChangesOverTime : type; -- Look at sequence related errors
-	
-	-- Probelms with external inputs to the controlled process
-	ConflictingControlActionsFromExternalController : type extends ErrorLibrary::SequenceCommission;
-	ProcessInputMissing : type extends ErrorLibrary::ItemOmission;
-	ProcessInputWrong : type extends ErrorLibrary::ItemCommission;
-	UnidentifiedDisturbance : type extends ErrorLibrary::ItemCommission;
-	OutOfRangeDisturbance : type extends ErrorLibrary::OutOfRange;
-	
-	-- The controlled process somehow contributes to a system hazard
-	ProcessOutputContributesToSystemHazard : type;
-	
-	-- ========================================================== --
-	-- Errors Related to Controlled Process -> Sensor Connections --
-	-- ========================================================== --
-	
-	FeedbackDelayedFromProcess : type extends ErrorLibrary::LateData;
-	MesasurementInaccurate : type extends ErrorLibrary::ServiceCommission;
-	IncorrectInformationProvided : type extends ErrorLibrary::ItemCommission;
-	NoInformationProvided : type extends ErrorLibrary::ItemOmission;
-	
-	-- ========================= --
-	-- Errors Related to Sensors --
-	-- ========================= --
-	
-	InadequateSensorOperation : type extends ErrorLibrary::ServiceError;
-	
-	-- ================================================== --
-	-- Errors Related to Sensor -> Controller Connections --
-	-- ================================================== --
-	
-	FeedbackDelayedFromSensor : type extends ErrorLibrary::LateData;
-	InadequateFeedback : type extends ErrorLibrary::ItemCommission;
-	MissingFeedback : type extends ErrorLibrary::ItemOmission;
-	
-	
-	-- ================ --
-	-- Top Level Errors --
-	-- ================ --
-	
-	SystemHazard : type;
+	-- Since our first set of successor dangers are actually violated constraints, we need 
+	-- an error type that represents these violated constraints
+	ViolatedConstraint : type;
 	
 	end types;
 **};

@@ -1,5 +1,5 @@
 property set PCA_Shutoff_Error_Properties is
-with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors, PCA_Shutoff_Logic, PCA_Shutoff;
+with MAP_Error_Properties;
 
 	Context : constant MAP_Error_Properties::Context => "Example context";
 	
@@ -8,71 +8,5 @@ with EMV2, MAP_Error_Properties, PCA_Shutoff_Errors, PCA_Shutoff_Logic, PCA_Shut
 	SpO2 : constant MAP_Error_Properties::Abbreviation => [
 		Full => "Blood-oxygen Saturation";
 		Definition => "The oxygenation of the patient's blood";
-	];
-
-	-- =================================
-	-- Accident Levels
-	-- =================================
-
-	-- Criticality level
-	Death : constant MAP_Error_Properties::Accident_Level => [
-		Level => 1;
-		Description => "Results in the death of a human";
-		Explanations => (
-			"We note that this aligns with, eg, 'Catastrophic' as defined in ISO 14971's Table D.3"
-		);
-	];
-	
-	-- =================================
-	-- Accidents
-	-- =================================
-
-	-- Harm
-	PatientDeath : constant MAP_Error_Properties::Accident => [
-		Description => "Patient is killed ";
-		Level => PCA_Shutoff_Error_Properties::Death;
-	];
-	
-	-- =================================
-	-- Hazards
-	-- =================================
-	
-	InadvertentPumpNormally : constant MAP_Error_Properties::Hazard => [
-		Description => "The pump is ordered to run normally when it should not.";
-		Accident => PCA_Shutoff_Error_Properties::PatientDeath;
-		HazardousFactor => "Analgesic"; 
---		SystemElement => reference(PCA_Shutoff::PCA_Shutoff_System.imp::appLogic); 
-	]; 
-	
---			MAP_Error_Properties::Hazard => [
---				Description => "The pump is ordered to run normally when it should not.";
---				Accident => PCA_Shutoff_Error_Properties::PatientDeath;
---				HazardousFactor => "Analgesic"; 
---				SystemElement => reference(pcaPump); 
---			] applies to (PCA_Shutoff::PCA_Shutoff_System); 
-	
-	BadInfoGiven : constant MAP_Error_Properties::Hazard => [
-		Description => "Incorrect information is sent to the display.";
-		Accident => PCA_Shutoff_Error_Properties::PatientDeath;
-	];
-	
-	-- =================================
-	-- Constraints
-	-- =================================
-	
-	
-	DontLetPumpRunWhenUnsafe : constant MAP_Error_Properties::Constraint => [
-		Description => "The app must command the pump to stop if the patient’s vital signs indicate over-infusion.";
-		Hazard => PCA_Shutoff_Error_Properties::InadvertentPumpNormally;
-	];
-	
-	DisplayMustShowPatientStatus : constant MAP_Error_Properties::Constraint => [
-		Description => "The app must correctly inform the display of the status of the patient’s vital signs.";
-		Hazard => PCA_Shutoff_Error_Properties::BadInfoGiven;
-	];
-	
-	DisplayMustShowPumpStatus : constant MAP_Error_Properties::Constraint => [
-		Description => "The app must correctly inform the display of the pump command status.";
-		Hazard => PCA_Shutoff_Error_Properties::BadInfoGiven;
 	];
 end PCA_Shutoff_Error_Properties;
