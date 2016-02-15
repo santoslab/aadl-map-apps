@@ -53,9 +53,15 @@ Fundamentals : list of MAP_Error_Properties::Accident_Level applies to (all);
 
 ProcessVariable : type record (
 	Name : aadlstring;
-	Values : list of reference({emv2}** error type);	
+	Values : reference({emv2}** error type set);	
 );
 
 ProcessModel : list of MAP_Error_Properties::ProcessVariable applies to (all);
+
+ExternallyCausedDanger : record (
+	ControlledProcessState : reference({emv2}** error type);
+	ProcessVariableValue : reference({emv2}** error type);
+	Interpretation : aadlstring;
+) applies to (all);
 
 end MAP_Error_Properties;

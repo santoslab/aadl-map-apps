@@ -13,27 +13,50 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 		MAP_Properties::Component_Type => actuator;
 	annex EMV2 {**
  		use types PCA_Shutoff_Errors;
+ 		use behavior PCA_Shutoff_Errors::PumpStatus;
 		error propagations
 			-- Incorrect tickets could arrive via the PumpNormally port
-			PumpNormally : in propagation {InadvertentPumpNormally};
-			flows
-				-- Once the inadvertent ticket arrives, it doesn't cause any
-				--  more failures (within the app boundary)
-				ODCommand : error sink PumpNormally {InadvertentPumpNormally};	
+			PumpNormally : in propagation {TicketTooLong, ErraticTicket, EarlyTicket, LateTicket};
+			DrugFlow : out propagation {TooMuchAnalgesic};
+			flows 
+				LongTicketLeadsToOD : error path PumpNormally{TicketTooLong} -> DrugFlow{TooMuchAnalgesic};
+				ErraticTicketLeadsToOD : error path PumpNormally{ErraticTicket} -> DrugFlow{TooMuchAnalgesic};
+				EarlyTicketLeadsToOD : error path PumpNormally{EarlyTicket} -> DrugFlow{TooMuchAnalgesic};
 		end propagations;
---		properties
---			MAP_Error_Properties::ComponentAnalysis => (
---				[
---					SuccessorDanger => reference(TooMuchAnalgesic);
---					IntOrExt => Int;
---					Guideword => [LevesonGuidewords => [Controller => A;];];
---				],
---				[Guideword => 
---					[LevesonGuidewords => [Controller => A;];];
---				]
---			); -- should be Analgesic out, but we can't refer to ports here 
-			-- because XText binds to the error propagation. See
-			-- https://github.com/osate/ErrorModelV2/issues/80
+		component error behavior
+			events
+				 TimeoutViolation : error event;
+			-- TODO
+			-- Work stopped here because of https://github.com/osate/ErrorModelV2/issues/93
+			-- Next steps would be to finish trying to model the PCA Pump's HA report
+			-- * The 42 below could instead be an error code, or discarded
+			-- * A property needs to be made to:
+			--   * Classify detections according to the taxonomy
+			--   * Specify detection via some human-readable something (at least a name)
+			-- And then somehow the possibility of handling needs to be dealt with, via states or strings or whatever.
+			detections
+				derp : all -[ PumpNormally{EarlyTicket} ]-> TimeoutViolation!(42);
+		end component;
+		properties
+			MAP_Error_Properties::ProcessModel => ([
+				Name => "Ticket Duration";
+				Values => reference(PumpProcessModel);
+			]);
+			MAP_Error_Properties::ExternallyCausedDanger => [
+				ControlledProcessState => reference(AtRisk);
+				ProcessVariableValue => reference(NonzeroTicketValue);
+				Interpretation => "The ticket has a time value that is too long";
+			] applies to LongTicketLeadsToOD;
+			MAP_Error_Properties::ExternallyCausedDanger => [
+				ControlledProcessState => reference(AtRisk);
+				ProcessVariableValue => reference(NonzeroTicketValue);
+				Interpretation => "The PCA Pump gets a ticket 'out of the blue'";
+			] applies to ErraticTicketLeadsToOD;
+			MAP_Error_Properties::ExternallyCausedDanger => [
+				ControlledProcessState => reference(AtRisk);
+				ProcessVariableValue => reference(NonzeroTicketValue);
+				Interpretation => "The PCA Pump gets a ticket 'too soon' -- before it has finished handling the previous ticket";
+			] applies to EarlyTicketLeadsToOD;
 	**};
 	end ICEpcaInterface;
 

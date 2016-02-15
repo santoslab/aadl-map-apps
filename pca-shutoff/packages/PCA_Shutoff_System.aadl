@@ -79,7 +79,7 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 						Constraints => ([
 							Name => "Don't overdose the patient";
 							Description => "The pump shouldn't run if the patient shows signs of an overdose";
-							ErrorType => reference(OverdosedPatient);
+							ErrorType => reference(TooMuchAnalgesic);
 						]);
 					]);
 				]);

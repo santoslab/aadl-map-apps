@@ -20,33 +20,35 @@ annex EMV2
 		AppPM_Overdosed : type extends Overdosed;
 		
 		-- Pump
-		Pumping : type extends Healthy;
-		NotPumping : type set{AtRisk, Overdosed};
+		NonzeroTicketValue : type extends Healthy;
+		ZeroTicketValue : type set{AtRisk, Overdosed};
+		PumpProcessModel : type set{NonzeroTicketValue, ZeroTicketValue};
 		
 		-- ==================== --
 		-- Violated Constraints --
 		-- ==================== --
 		
-		OverdosedPatient : type extends MAP_Errors::ViolatedConstraint;
+		TooMuchAnalgesic : type extends MAP_Errors::ViolatedConstraint;
 		
 		-- =========== --
 		-- Error Types --
 		-- =========== --	
 	
-		TooMuchAnalgesic : type extends MAP_Errors::Erratic;
-	
-		InadvertentPumpNormally : type extends MAP_Errors::Erratic;
+		TicketTooLong : type extends MAP_Errors::High;
+		ErraticTicket : type extends MAP_Errors::Erratic;
+		EarlyTicket : type extends MAP_Errors::Early;
+		LateTicket : type extends MAP_Errors::Late;
 		
-		-- Should this be inadequate sensor operation? Or inadequate feedback?
-		SpO2ValueHigh : type extends MAP_Errors::High;
-		SpO2ValueLow : type extends MAP_Errors::Low;
-		ETCO2ValueLow : type extends MAP_Errors::Low;
-		ETCO2ValueHigh : type extends MAP_Errors::High;
-		RespiratoryRateLow : type extends MAP_Errors::Low;
-		RespiratoryRateHigh : type extends MAP_Errors::High;
 	end types;
 	
 	error behavior AppStatus
+	states
+		Normal : initial state;
+		DetectedError : state;
+		UndetectedError : state;
+	end behavior;
+	
+	error behavior PumpStatus
 	states
 		Normal : initial state;
 		DetectedError : state;
