@@ -9,4 +9,9 @@ with MAP_Error_Properties;
 		Full => "Blood-oxygen Saturation";
 		Definition => "The oxygenation of the patient's blood";
 	];
+	
+	ECCMemory : constant MAP_Error_Properties::Compensation => "Use error-correcting code memory";
+	Shielding : constant MAP_Error_Properties::Compensation => "Shield the device from cosmic rays";
+	ThoughtfulUIDesign : constant MAP_Error_Properties::Compensation => "Design the UI to inform the operator of the state and make mistakes difficult";
+	PeriodicRetraining : constant MAP_Error_Properties::Compensation => "Retrain operators periodically on the trickier parts of the scenario";
 end PCA_Shutoff_Error_Properties;

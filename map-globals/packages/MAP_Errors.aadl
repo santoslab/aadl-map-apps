@@ -29,6 +29,27 @@ annex EMv2
 	-- an error type that represents these violated constraints
 	ViolatedConstraint : type;
 	
+	-- Fault types from Avizienis-etal's taxonomy
+	-- TODO: Group these into their classifications / the question-based groups?
+	SoftwareBug : type;
+	BadSoftwareDesign : type;
+	CompromisedSoftware : type;
+	CompromisedHardware : type;
+	HardwareBug : type;
+	BadHardwareDesign : type;
+	ProductionDefect : type;
+	Deterioration : type;
+	CosmicRay : type;
+	OperatorHWMistake : type;
+	OperatorHWWrongChoice : type;
+	AdversaryAccessesHardware : type;
+	AdversaryAccessesSoftware : type;
+	OperatorSWMistake : type;
+	OperatorSWWrongChoice : type;
+	SyntaxMismatch : type;
+	RateMismatch : type;
+	SemanticMismatch : type;
+	
 	end types;
 **};
 end MAP_Errors;

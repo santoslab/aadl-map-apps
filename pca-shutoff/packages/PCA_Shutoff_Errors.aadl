@@ -34,11 +34,13 @@ annex EMV2
 		-- Error Types --
 		-- =========== --	
 	
+		-- Pump Manifestations
 		TicketTooLong : type extends MAP_Errors::High;
+		TicketTooShort : type extends MAP_Errors::Low;
+		NoTicket : type extends MAP_Errors::Halted;
 		ErraticTicket : type extends MAP_Errors::Erratic;
 		EarlyTicket : type extends MAP_Errors::Early;
 		LateTicket : type extends MAP_Errors::Late;
-		
 	end types;
 	
 	error behavior AppStatus
@@ -51,8 +53,7 @@ annex EMV2
 	error behavior PumpStatus
 	states
 		Normal : initial state;
-		DetectedError : state;
-		UndetectedError : state;
+		PermanentKVO : state;
 	end behavior;
 **};
 

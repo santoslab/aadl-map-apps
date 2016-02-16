@@ -61,7 +61,37 @@ ProcessModel : list of MAP_Error_Properties::ProcessVariable applies to (all);
 ExternallyCausedDanger : record (
 	ControlledProcessState : reference({emv2}** error type);
 	ProcessVariableValue : reference({emv2}** error type);
-	Interpretation : aadlstring;
+	Explanation : aadlstring;
 ) applies to (all);
+
+Compensation : type aadlstring;
+
+InternallyCausedDanger : record (
+	ControlledProcessState : reference({emv2}** error type);
+	DesignTimeHandling : list of MAP_Error_Properties::Compensation;
+	Explanation : aadlstring;
+) applies to (all);
+
+RuntimeErrorDetection : record (
+	ErrorDetectionApproach : enumeration (Concurrent, Preemptive);
+	Explanation : aadlstring; 
+) applies to (all);
+
+RuntimeErrorHandling : record (
+	ErrorHandlingApproach : enumeration (Rollback, Rollforward, Compensation);
+	Explanation : aadlstring;
+) applies to (all);
+
+RuntimeFaultHandling : record (
+	ErrorHandlingApproach : enumeration (Diagnosis, Isolation, Reconfiguration, Reinitialization);
+	Explanation : aadlstring;
+) applies to (all);
+
+
+EliminatedFaults : record (
+	FaultTypes : list of reference({emv2}** error type);
+	Explanation : aadlstring;	
+) applies to (all);
+
 
 end MAP_Error_Properties;
