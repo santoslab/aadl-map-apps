@@ -26,6 +26,6 @@ with Data_Model, IEEE11073_Nomenclature;
 	data PumpCmd
 	properties
 		Data_Model::Data_Representation => Integer;
-		Data_Model::Integer_Range => 0 .. 6000;
+		Data_Model::Integer_Range => 0 .. 600;
 	end PumpCmd;
 end PCA_Shutoff_Types;

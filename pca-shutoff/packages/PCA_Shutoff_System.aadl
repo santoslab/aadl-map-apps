@@ -49,12 +49,6 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		etco2_disp : port capnograph.ETCO2 -> appDisplay.ETCO2;
 		--capnograph_fail_disp : port capnograph.DeviceError -> appDisplay.capnographError;
 		--pulseox_fail_disp : port pulseOx.DeviceError -> appDisplay.pulseOxError;
-	flows
-		spo2_flow : end to end flow pulseOx.spo2_flow -> 
-									spo2_logic -> 
-									appLogic.spo2_flow -> 
-									pumpcommand_logic -> 
-									pcaPump.spo2_flow;
 	properties
 		MAP_Properties::Component_Type => aggregation;
 	annex EMV2 {** 
@@ -73,7 +67,7 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 						Description => "The patient receives more analgesic than they can tolerate";
 						HazardousFactor => "Analgesic";
 						SystemElement => reference (pcaPump);
-						SystemElementState => reference(notPumping);
+						SystemElementState => reference(NonzeroTicketValue);
 						EnvironmentElement => reference (patient);
 						EnvironmentElementStates => (reference(AtRisk), reference(Overdosed));
 						Constraints => ([
