@@ -51,35 +51,35 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 		--pulseox_fail_disp : port pulseOx.DeviceError -> appDisplay.pulseOxError;
 	properties
 		MAP_Properties::Component_Type => aggregation;
-	annex EMV2 {** 
-		use types PCA_Shutoff_Errors;
-		connection error
-			pulseox_dc : error source spo2_logic {InadvertentPumpNormally};
-		end connection;
-		properties	
-			MAP_Error_Properties::Fundamentals => ([
-				Level => 1;
-				Description => "Death or serious injury to a human";
-				Accidents => ([
-					Description => "Patient dies";
-					Hazards => ([
-						Name => "Patient overdosed";
-						Description => "The patient receives more analgesic than they can tolerate";
-						HazardousFactor => "Analgesic";
-						SystemElement => reference (pcaPump);
-						SystemElementState => reference(NonzeroTicketValue);
-						EnvironmentElement => reference (patient);
-						EnvironmentElementStates => (reference(AtRisk), reference(Overdosed));
-						Constraints => ([
-							Name => "Don't overdose the patient";
-							Description => "The pump shouldn't run if the patient shows signs of an overdose";
-							ErrorType => reference(TooMuchAnalgesic);
-						]);
-					]);
-				]);
-			]);
-		
-	**};
+--	annex EMV2 {** 
+--		use types PCA_Shutoff_Errors;
+--		connection error
+--			pulseox_dc : error source spo2_logic {InadvertentPumpNormally};
+--		end connection;
+--		properties	
+--			MAP_Error_Properties::Fundamentals => ([
+--				Level => 1;
+--				Description => "Death or serious injury to a human";
+--				Accidents => ([
+--					Description => "Patient dies";
+--					Hazards => ([
+--						Name => "Patient overdosed";
+--						Description => "The patient receives more analgesic than they can tolerate";
+--						HazardousFactor => "Analgesic";
+--						SystemElement => reference (pcaPump);
+--						SystemElementState => reference(NonzeroTicketValue);
+--						EnvironmentElement => reference (patient);
+--						EnvironmentElementStates => (reference(AtRisk), reference(Overdosed));
+--						Constraints => ([
+--							Name => "Don't overdose the patient";
+--							Description => "The pump shouldn't run if the patient shows signs of an overdose";
+--							ErrorType => reference(TooMuchAnalgesic);
+--						]);
+--					]);
+--				]);
+--			]);
+--		
+--	**};
 	end PCA_Shutoff_System.imp;
 
 end PCA_Shutoff;

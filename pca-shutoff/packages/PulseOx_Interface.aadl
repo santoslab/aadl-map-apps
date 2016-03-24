@@ -15,26 +15,26 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 		spo2_flow : flow source SpO2;
 	properties
 		MAP_Properties::Component_Type => sensor;
-	annex EMV2 {** 
- 		use types PCA_Shutoff_Errors;
-		error propagations
-			-- There's a risk that incorrectly high SpO2 information could 
-			--  be sent out on the SpO2 port
-			SpO2 : out propagation {SpO2ValueHigh};
-			-- We acknowledge, but do not propagate, the SpO2ValueLow error.
-			-- Much as the device may have physiological parameters we don't
-			--  provide to the logic components, we don't want irrelevant
-			--  faults provided either.
-			-- Additionally, the logic components are not error sinks for the
-			--  the type, in that they don't provide compensatory actions  
-			SpO2 : not out propagation {SpO2ValueLow};
-			-- Specify (and name) the sources for error flows.  This is sort of
-			--  uninteresting in device interfaces, but is useful for other
-			--  analyses
-			flows
-				SpO2UnDetectableHighValueFlowSource : error source SpO2 {SpO2ValueHigh};
-		end propagations;
-	**};
+--	annex EMV2 {** 
+-- 		use types PCA_Shutoff_Errors;
+--		error propagations
+--			-- There's a risk that incorrectly high SpO2 information could 
+--			--  be sent out on the SpO2 port
+--			SpO2 : out propagation {SpO2ValueHigh};
+--			-- We acknowledge, but do not propagate, the SpO2ValueLow error.
+--			-- Much as the device may have physiological parameters we don't
+--			--  provide to the logic components, we don't want irrelevant
+--			--  faults provided either.
+--			-- Additionally, the logic components are not error sinks for the
+--			--  the type, in that they don't provide compensatory actions  
+--			SpO2 : not out propagation {SpO2ValueLow};
+--			-- Specify (and name) the sources for error flows.  This is sort of
+--			--  uninteresting in device interfaces, but is useful for other
+--			--  analyses
+--			flows
+--				SpO2UnDetectableHighValueFlowSource : error source SpO2 {SpO2ValueHigh};
+--		end propagations;
+--	**};
 	end ICEpoInterface;
 
 	device implementation ICEpoInterface.imp

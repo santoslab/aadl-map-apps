@@ -16,14 +16,14 @@ with PCA_Shutoff_Properties, PCA_Shutoff_Types, MAP_Properties, MAP_Error_Proper
 	properties
 		MAP_Properties::Process_Type => display;
 		MAP_Properties::Component_Type => actuator;
-	annex EMV2 {** 
- 		use types PCA_Shutoff_Errors;
-		error propagations
-			SpO2 : in propagation {SpO2ValueHigh};
-			flows
-				HighSpO2MisleadsClinician : error sink SpO2 {SpO2ValueHigh};
-		end propagations;
-	**};
+--	annex EMV2 {** 
+-- 		use types PCA_Shutoff_Errors;
+--		error propagations
+--			SpO2 : in propagation {SpO2ValueHigh};
+--			flows
+--				HighSpO2MisleadsClinician : error sink SpO2 {SpO2ValueHigh};
+--		end propagations;
+--	**};
 	end ICEpcaDisplayProcess;
 
 	process implementation ICEpcaDisplayProcess.imp

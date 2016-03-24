@@ -6,6 +6,10 @@ public
 		vein : in feature;
 		fingerclip : out feature;
 		exhalation : out feature;
+	modes
+		healthy : mode;
+		risk : mode;
+		overdosed : mode;
 	properties
 		MAP_Properties::Component_Type => controlled_process;
 	end PCA_Shutoff_Patient;

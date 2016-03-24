@@ -1,14 +1,21 @@
 package PCAPump_Interface
 public
-with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties;
+with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties, PCA_Shutoff_Patient;
 	device ICEpcaInterface
 	features
 		TicketInput : in event data port PCA_Shutoff_Types::PumpCmd;
 		DrugFlow : out feature;
+	modes
+		zero_ticket : mode;
+		nonzero_ticket : mode;
 	properties
 		MAP_Properties::Component_Type => actuator;
+		MAP_Error_Properties::ProcessModel => ([
+			Name => "Ticket Duration";
+			Values => (reference(zero_ticket), reference(nonzero_ticket));
+		]);
 	annex EMV2 {**
- 		use types PCA_Shutoff_Errors, MAP_Errors;
+ 		use types MAP_Errors, PCA_Shutoff_Errors;
  		use behavior PCA_Shutoff_Errors::PumpStatus;
 		error propagations
 			TicketInput : in propagation {TicketTooLong, ErraticTicket, EarlyTicket, LateTicket};
@@ -21,8 +28,8 @@ with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties;
 				LateTicketLeadsToOD : error path TicketInput{LateTicket} -> DrugFlow{TooMuchAnalgesic};
 				
 				-- External errors that don't cause problems
-				LowTicketValueIsntUnsafe : error sink TicketInput{TicketTooShort};
-				NoTicketsArentUnsafe : error sink TicketInput{NoTicket};
+--				LowTicketValueIsntUnsafe : error sink TicketInput{TicketTooShort};
+--				NoTicketsArentUnsafe : error sink TicketInput{NoTicket};
 				
 				-- Internal faults
 				DeteriorationLeadsToOD : error source DrugFlow{TooMuchAnalgesic} when {Deterioration};
@@ -47,11 +54,7 @@ with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties;
 				]-> PermanentKVO;
 		end component;
 		properties
-			MAP_Error_Properties::ProcessModel => ([
-				Name => "Ticket Duration";
-				Values => reference(PumpProcessModel);
-			]);
-			
+				
 			MAP_Error_Properties::RuntimeErrorDetection => [
 				ErrorDetectionApproach => Concurrent;
 				Explanation => "Minimum separation between messages are added to detect early arrivals";
@@ -70,99 +73,99 @@ with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties;
 				Explanation => "The pump switches into a fail-safe mode, ie, it runs at a minimal (KVO) rate";
 			] applies to SwitchToKVO;
 			
-			MAP_Error_Properties::ExternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				ProcessVariableValue => reference(NonzeroTicketValue);
+			MAP_Error_Properties::ExternallyCausedDanger => [ 
+--				ControlledProcessState => reference(PCA_Shutoff_Patient::risk);
+--				ProcessVariableValue => reference(nonzero_ticket);
 				Explanation => "The ticket has a time value that is too long";
 			] applies to LongTicketLeadsToOD;
-			MAP_Error_Properties::ExternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				ProcessVariableValue => reference(NonzeroTicketValue);
-				Explanation => "The PCA Pump gets a ticket 'out of the blue'";
-			] applies to ErraticTicketLeadsToOD;
-			MAP_Error_Properties::ExternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				ProcessVariableValue => reference(NonzeroTicketValue);
-				Explanation => "The PCA Pump gets a ticket 'too soon' -- before it has finished handling the previous ticket";
-			] applies to EarlyTicketLeadsToOD;
-			MAP_Error_Properties::ExternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				ProcessVariableValue => reference(NonzeroTicketValue);
-				Explanation => "The PCA pump gets a ticket late, so it's valid past the time window it should be";
-			] applies to LateTicketLeadsToOD;
-			
-			MAP_Error_Properties::InternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				Explanation => "The pump deteriorates to the point that it fails open";
-			] applies to DeteriorationLeadsToOD;
-			MAP_Error_Properties::InternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				DesignTimeHandling => (
-					PCA_Shutoff_Error_Properties::ECCMemory,
-					PCA_Shutoff_Error_Properties::Shielding
-				);
-				Explanation => "A cosmic ray flips a bit in the pump, making it run";
-			] applies to CosmicRayLeadsToOD;
-			MAP_Error_Properties::InternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				DesignTimeHandling => (
-					PCA_Shutoff_Error_Properties::ThoughtfulUIDesign
-				);
-				Explanation => "The operator accidentally presses a button she didn't mean to, giving either too much drug, too strong of a drug, or drug too quickly";
-			] applies to OperatorHWMistakeLeadsToOD;
-			MAP_Error_Properties::InternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				DesignTimeHandling => (
-					PCA_Shutoff_Error_Properties::ThoughtfulUIDesign,
-					PCA_Shutoff_Error_Properties::PeriodicRetraining
-				);
-				Explanation => "The operator misunderstands the patient state and / or clinical process, giving either too much drug, too strong of a drug, or drug too quickly";
-			] applies to OperatorHWWrongChoiceLeadsToOD;
-			MAP_Error_Properties::InternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				DesignTimeHandling => (
-					PCA_Shutoff_Error_Properties::ThoughtfulUIDesign
-				);
-				Explanation => "The operator accidentally presses a button she didn't mean to, giving either too much drug, too strong of a drug, or drug too quickly";
-			] applies to OperatorSWMistakeLeadsToOD;
-			MAP_Error_Properties::InternallyCausedDanger => [
-				ControlledProcessState => reference(AtRisk);
-				DesignTimeHandling => (
-					PCA_Shutoff_Error_Properties::ThoughtfulUIDesign,
-					PCA_Shutoff_Error_Properties::PeriodicRetraining
-				);
-				Explanation => "The operator misunderstands the patient state and / or clinical process, giving either too much drug, too strong of a drug, or drug too quickly";
-			] applies to OperatorSWWrongChoiceLeadsToOD;
-			
-			MAP_Error_Properties::EliminatedFaults =>[
-				FaultTypes => (
-					reference(SoftwareBug), 
-					reference(BadSoftwareDesign), 
-					reference(CompromisedSoftware),
-					reference(CompromisedHardware),
-					reference(HardwareBug),
-					reference(BadHardwareDesign),
-					reference(ProductionDefect)
-				);
-				Explanation => "We're using a 'proven in use' PCA Pump";
-			];
-			
-			MAP_Error_Properties::EliminatedFaults => [
-				FaultTypes => (
-					reference(AdversaryAccessesHardware),
-					reference(AdversaryAccessesSoftware)
-				);
-				Explanation => "The hospital has physical security measures in place";
-			];
-			
-			MAP_Error_Properties::EliminatedFaults => [
-				FaultTypes => (
-					reference(SyntaxMismatch),
-					reference(RateMismatch),
-					reference(SemanticMismatch)
-				);
-				Explanation => "The PCA pump isn't a connection between two components";
-			];
+--			MAP_Error_Properties::ExternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				ProcessVariableValue => reference(NonzeroTicketValue);
+--				Explanation => "The PCA Pump gets a ticket 'out of the blue'";
+--			] applies to ErraticTicketLeadsToOD;
+--			MAP_Error_Properties::ExternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				ProcessVariableValue => reference(NonzeroTicketValue);
+--				Explanation => "The PCA Pump gets a ticket 'too soon' -- before it has finished handling the previous ticket";
+--			] applies to EarlyTicketLeadsToOD;
+--			MAP_Error_Properties::ExternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				ProcessVariableValue => reference(NonzeroTicketValue);
+--				Explanation => "The PCA pump gets a ticket late, so it's valid past the time window it should be";
+--			] applies to LateTicketLeadsToOD;
+--			
+--			MAP_Error_Properties::InternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				Explanation => "The pump deteriorates to the point that it fails open";
+--			] applies to DeteriorationLeadsToOD;
+--			MAP_Error_Properties::InternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				DesignTimeHandling => (
+--					PCA_Shutoff_Error_Properties::ECCMemory,
+--					PCA_Shutoff_Error_Properties::Shielding
+--				);
+--				Explanation => "A cosmic ray flips a bit in the pump, making it run";
+--			] applies to CosmicRayLeadsToOD;
+--			MAP_Error_Properties::InternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				DesignTimeHandling => (
+--					PCA_Shutoff_Error_Properties::ThoughtfulUIDesign
+--				);
+--				Explanation => "The operator accidentally presses a button she didn't mean to, giving either too much drug, too strong of a drug, or drug too quickly";
+--			] applies to OperatorHWMistakeLeadsToOD;
+--			MAP_Error_Properties::InternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				DesignTimeHandling => (
+--					PCA_Shutoff_Error_Properties::ThoughtfulUIDesign,
+--					PCA_Shutoff_Error_Properties::PeriodicRetraining
+--				);
+--				Explanation => "The operator misunderstands the patient state and / or clinical process, giving either too much drug, too strong of a drug, or drug too quickly";
+--			] applies to OperatorHWWrongChoiceLeadsToOD;
+--			MAP_Error_Properties::InternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				DesignTimeHandling => (
+--					PCA_Shutoff_Error_Properties::ThoughtfulUIDesign
+--				);
+--				Explanation => "The operator accidentally presses a button she didn't mean to, giving either too much drug, too strong of a drug, or drug too quickly";
+--			] applies to OperatorSWMistakeLeadsToOD;
+--			MAP_Error_Properties::InternallyCausedDanger => [
+--				ControlledProcessState => reference(AtRisk);
+--				DesignTimeHandling => (
+--					PCA_Shutoff_Error_Properties::ThoughtfulUIDesign,
+--					PCA_Shutoff_Error_Properties::PeriodicRetraining
+--				);
+--				Explanation => "The operator misunderstands the patient state and / or clinical process, giving either too much drug, too strong of a drug, or drug too quickly";
+--			] applies to OperatorSWWrongChoiceLeadsToOD;
+--			
+--			MAP_Error_Properties::EliminatedFaults =>[
+--				FaultTypes => (
+--					reference(SoftwareBug), 
+--					reference(BadSoftwareDesign), 
+--					reference(CompromisedSoftware),
+--					reference(CompromisedHardware),
+--					reference(HardwareBug),
+--					reference(BadHardwareDesign),
+--					reference(ProductionDefect)
+--				);
+--				Explanation => "We're using a 'proven in use' PCA Pump";
+--			];
+--			
+--			MAP_Error_Properties::EliminatedFaults => [
+--				FaultTypes => (
+--					reference(AdversaryAccessesHardware),
+--					reference(AdversaryAccessesSoftware)
+--				);
+--				Explanation => "The hospital has physical security measures in place";
+--			];
+--			
+--			MAP_Error_Properties::EliminatedFaults => [
+--				FaultTypes => (
+--					reference(SyntaxMismatch),
+--					reference(RateMismatch),
+--					reference(SemanticMismatch)
+--				);
+--				Explanation => "The PCA pump isn't a connection between two components";
+--			];
 	**};
 	end ICEpcaInterface;
 

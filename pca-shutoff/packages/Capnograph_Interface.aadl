@@ -10,18 +10,18 @@ with PCA_Shutoff_Types, MAP_Properties, PCA_Shutoff_Properties, MAP_Error_Proper
 		Breath : in feature;
 	properties
 		MAP_Properties::Component_Type => sensor;
-	annex EMV2 {** 
- 		use types PCA_Shutoff_Errors;
-		error propagations
-			ETCO2 : out propagation {ETCO2ValueHigh};
-			ETCO2 : not out propagation {ETCO2ValueLow};
-			RespiratoryRate : out propagation {RespiratoryRateLow, RespiratoryRateHigh};
-			flows
-				ETCO2UnDetectableHighValueFlowSource : error source ETCO2 {ETCO2ValueHigh};
-				RRUnDetectableHighValueFlowSource : error source RespiratoryRate {RespiratoryRateHigh};
-				RRUnDetectableLowValueFlowSource : error source RespiratoryRate {RespiratoryRateLow};
-		end propagations;
-	**};
+--	annex EMV2 {** 
+-- 		use types PCA_Shutoff_Errors;
+--		error propagations
+--			ETCO2 : out propagation {ETCO2ValueHigh};
+--			ETCO2 : not out propagation {ETCO2ValueLow};
+--			RespiratoryRate : out propagation {RespiratoryRateLow, RespiratoryRateHigh};
+--			flows
+--				ETCO2UnDetectableHighValueFlowSource : error source ETCO2 {ETCO2ValueHigh};
+--				RRUnDetectableHighValueFlowSource : error source RespiratoryRate {RespiratoryRateHigh};
+--				RRUnDetectableLowValueFlowSource : error source RespiratoryRate {RespiratoryRateLow};
+--		end propagations;
+--	**};
 	end ICEcapnographInterface;
 
 	device implementation ICEcapnographInterface.imp
