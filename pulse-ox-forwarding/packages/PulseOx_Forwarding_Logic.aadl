@@ -1,6 +1,6 @@
 package PulseOx_Forwarding_Logic
 public
-with PulseOx_Forwarding_Types, MAP_Properties, PulseOx_Forwarding_Errors;
+with PulseOx_Forwarding_Types, MAP_Properties, MAP_Error_Properties, PulseOx_Forwarding_Properties;
 
 	process PulseOx_Logic_Process
 	features
@@ -9,13 +9,12 @@ with PulseOx_Forwarding_Types, MAP_Properties, PulseOx_Forwarding_Errors;
 		{MAP_Properties::Output_Rate => 200 ms .. 400 ms;};
 	properties
 		MAP_Properties::Process_Type => logic;
+		MAP_Properties::Component_Type => controller;
 	annex EMV2 {** 
  		use types PulseOx_Forwarding_Errors;
 		error propagations
-			SpO2 : in propagation {SpO2ValueHigh};
-			DerivedAlarm : out propagation {MissedAlarm};
-			flows
-				HighSpO2LeadsToMissedAlarm : error path SpO2{SpO2ValueHigh} -> DerivedAlarm{MissedAlarm};
+			SpO2 : in propagation {SpO2ValueHigh, SpO2ValueLow};
+			DerivedAlarm : out propagation {MissedAlarm, BogusAlarm};
 		end propagations;
 	**};
 	end PulseOx_Logic_Process;
@@ -23,8 +22,30 @@ with PulseOx_Forwarding_Types, MAP_Properties, PulseOx_Forwarding_Errors;
 	process implementation PulseOx_Logic_Process.imp
 	subcomponents
 		CheckSpO2Thread : thread CheckSpO2Thread.imp;
+		SpO2Data : data PulseOx_Forwarding_Types::SpO2;
 	connections
 		outgoing_alarm : port CheckSpO2Thread.Alarm -> DerivedAlarm;
+	annex EMV2 {**
+		use types PulseOx_Forwarding_Errors;
+		error propagations			
+			flows
+				-- Error path examples
+				HighSpO2LeadsToOD : error path SpO2{SpO2ValueHigh} -> DerivedAlarm{MissedAlarm};
+				LowSpO2DoesNothing : error sink SpO2{SpO2ValueLow};
+				BogusAlarmsArePossible : error source DerivedAlarm{BogusAlarm};
+				
+				-- Nonsensical error paths here as examples of more complex behaviors: 
+				MultipleInputs : error path SpO2{SpO2ValueHigh, SpO2ValueLow} -> DerivedAlarm{MissedAlarm};
+				MultipleOutputs : error path SpO2{SpO2ValueHigh} -> DerivedAlarm{MissedAlarm, BogusAlarm};
+				MtoN : error path SpO2{SpO2ValueHigh, SpO2ValueLow} -> DerivedAlarm{MissedAlarm, BogusAlarm};
+		end propagations;
+		properties			
+			MAP_Error_Properties::ExternallyCausedDanger => [ 
+--				ControlledProcessState => reference(PCA_Shutoff_Patient.imp::health_status);
+--				ProcessVariableValue => reference(ticket);
+				Explanation => "The ticket has a time value that is too long";
+			] applies to HighSpO2LeadsToOD;
+	**};
 	end PulseOx_Logic_Process.imp;
 	
 	thread CheckSpO2Thread

@@ -4,22 +4,31 @@ with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties, PCA_Shutoff_Patien
 	device ICEpcaInterface
 	features
 		TicketInput : in event data port PCA_Shutoff_Types::PumpCmd;
-		DrugFlow : out feature;
-	modes
-		zero_ticket : mode;
-		nonzero_ticket : mode;
+		DrugFlow : out feature;		
 	properties
-		MAP_Properties::Component_Type => actuator;
-		MAP_Error_Properties::ProcessModel => ([
-			Name => "Ticket Duration";
-			Values => (reference(zero_ticket), reference(nonzero_ticket));
-		]);
+		MAP_Properties::Component_Type => actuator;	
 	annex EMV2 {**
  		use types MAP_Errors, PCA_Shutoff_Errors;
  		use behavior PCA_Shutoff_Errors::PumpStatus;
 		error propagations
-			TicketInput : in propagation {TicketTooLong, ErraticTicket, EarlyTicket, LateTicket};
+			TicketInput : in propagation {TicketTooLong, TicketTooShort, NoTicket, ErraticTicket, EarlyTicket, LateTicket};
 			DrugFlow : out propagation {TooMuchAnalgesic};
+		end propagations;
+	**};
+	end ICEpcaInterface;
+
+	device implementation ICEpcaInterface.imp
+	subcomponents
+		ticket : data PCA_Shutoff_Types::PumpCmd;
+--	properties
+--		MAP_Error_Properties::ProcessModel => ([
+--			Name => "Ticket Duration";
+--			Type => (reference(zero_ticket), reference(nonzero_ticket));
+--		]);
+	annex EMV2 {**
+ 		use types MAP_Errors, PCA_Shutoff_Errors;
+ 		use behavior PCA_Shutoff_Errors::PumpStatus;
+		error propagations
 			flows
 				-- Externally caused problems
 				LongTicketLeadsToOD : error path TicketInput{TicketTooLong} -> DrugFlow{TooMuchAnalgesic};
@@ -28,8 +37,8 @@ with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties, PCA_Shutoff_Patien
 				LateTicketLeadsToOD : error path TicketInput{LateTicket} -> DrugFlow{TooMuchAnalgesic};
 				
 				-- External errors that don't cause problems
---				LowTicketValueIsntUnsafe : error sink TicketInput{TicketTooShort};
---				NoTicketsArentUnsafe : error sink TicketInput{NoTicket};
+				LowTicketValueIsntUnsafe : error sink TicketInput{TicketTooShort};
+				NoTicketsArentUnsafe : error sink TicketInput{NoTicket};
 				
 				-- Internal faults
 				DeteriorationLeadsToOD : error source DrugFlow{TooMuchAnalgesic} when {Deterioration};
@@ -74,8 +83,8 @@ with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties, PCA_Shutoff_Patien
 			] applies to SwitchToKVO;
 			
 			MAP_Error_Properties::ExternallyCausedDanger => [ 
---				ControlledProcessState => reference(PCA_Shutoff_Patient::risk);
---				ProcessVariableValue => reference(nonzero_ticket);
+--				ControlledProcessState => reference(PCA_Shutoff_Patient.imp::health_status);
+				ProcessVariableValue => reference(ticket);
 				Explanation => "The ticket has a time value that is too long";
 			] applies to LongTicketLeadsToOD;
 --			MAP_Error_Properties::ExternallyCausedDanger => [
@@ -167,9 +176,6 @@ with PCA_Shutoff_Types, MAP_Properties, MAP_Error_Properties, PCA_Shutoff_Patien
 --				Explanation => "The PCA pump isn't a connection between two components";
 --			];
 	**};
-	end ICEpcaInterface;
-
-	device implementation ICEpcaInterface.imp
 	end ICEpcaInterface.imp;
 
 end PCAPump_Interface;

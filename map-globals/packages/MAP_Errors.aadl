@@ -23,8 +23,6 @@ annex EMv2
 	Halted : type;
 	Erratic : type;
 	
-	Cleartext : type;
-	
 	-- Since our first set of successor dangers are actually violated constraints, we need 
 	-- an error type that represents these violated constraints
 	ViolatedConstraint : type;
@@ -49,6 +47,27 @@ annex EMv2
 	SyntaxMismatch : type;
 	RateMismatch : type;
 	SemanticMismatch : type;
+	
+	StandardFaultClasses : type set {
+		SoftwareBug,
+		BadSoftwareDesign,
+		CompromisedSoftware,
+		CompromisedHardware,
+		HardwareBug,
+		BadHardwareDesign,
+		ProductionDefect,
+		Deterioration,
+		CosmicRay,
+		OperatorHWMistake,
+		OperatorHWWrongChoice,
+		AdversaryAccessesHardware,
+		AdversaryAccessesSoftware,
+		OperatorSWMistake,
+		OperatorSWWrongChoice,
+		SyntaxMismatch,
+		RateMismatch,
+		SemanticMismatch
+	};
 	
 	end types;
 **};

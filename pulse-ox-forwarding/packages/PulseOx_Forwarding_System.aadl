@@ -2,7 +2,7 @@ package PulseOx_Forwarding_System
 public
 with PulseOx_Interface, PulseOx_Forwarding_Logic, PulseOx_Forwarding_Display, 
 	PulseOx_Forwarding_Properties, MAP_Properties, MAP_Error_Properties,
-	PulseOx_Forwarding_Errors;
+	PulseOx_Forwarding_Errors, PulseOx_Forwarding_System;
 
 	system PulseOx_Forwarding_System
 	end PulseOx_Forwarding_System;
@@ -25,27 +25,55 @@ with PulseOx_Interface, PulseOx_Forwarding_Logic, PulseOx_Forwarding_Display,
 		
 		-- From logic to display
 		alarm_to_display : port appLogic.DerivedAlarm -> appDisplay.DerivedAlarm;
+	properties
+		MAP_Properties::Component_Type => controller;
 	annex EMV2 {**
 		use types PulseOx_Forwarding_Errors;
-		properties
-		MAP_Error_Properties::Occurrence => [
-			Kind => NotProviding;
-			Hazard => PulseOx_Forwarding_Error_Properties::MissedAlarm;
-			ViolatedConstraint => PulseOx_Forwarding_Error_Properties::ShowAllAlarms;
-			Title => "Bad SpO2";
-			Cause => "The SpO2 values from the pulse oximeter are too high, so the alarm is missed";
-			Compensation => "None";
-			Impact => reference(SpO2ValueHigh);
-		] applies to alarm_to_display;
-		MAP_Error_Properties::Occurrence => [
-			Kind => ValueHigh;
-			Hazard => PulseOx_Forwarding_Error_Properties::BadInfoDisplayed;
-			ViolatedConstraint => PulseOx_Forwarding_Error_Properties::ShowGoodInfo;
-			Title => "Bad SpO2";
-			Cause => "Incorrect SpO2 values are sent to the display";
-			Compensation => "None";
-			Impact => reference(SpO2ValueHigh);
-		] applies to spo2_to_display;
+--		properties
+--			MAP_Error_Properties::Fundamentals => ([
+--				Level => 1;
+--				Description => "Death or serious injury to a human";
+--				Accidents => ([
+--					Description => "Patient dies";
+--					Hazards => ([
+--						Name => "Patient overdosed";
+--						Description => "The patient receives more analgesic than they can tolerate";
+--						HazardousFactor => "Analgesic";
+----						SystemElement => reference (pcaPump);
+----						SystemElementState => reference(NonzeroTicketValue);
+----						EnvironmentElement => reference (patient);
+----						EnvironmentElementStates => (reference(AtRisk), reference(Overdosed));
+--						Constraints => ([
+--							Name => "Don't overdose the patient";
+--							Description => "The pump shouldn't run if the patient shows signs of an overdose";
+--							ErrorType => reference(MissedAlarm);
+--						]);
+--					]);
+--				]);
+--			]) applies to pulseOx;
 	**};
 	end PulseOx_Forwarding_System.imp;
+	
+	properties
+		MAP_Error_Properties::Fundamentals => ([
+			Level => 1;
+			Description => "Death or serious injury to a human";
+			Accidents => ([
+				Description => "Patient dies";
+				Hazards => ([
+					Name => "Patient overdosed";
+					Description => "The patient receives more analgesic than they can tolerate";
+					HazardousFactor => "Analgesic";
+--						SystemElement => reference (pcaPump);
+--						SystemElementState => reference(NonzeroTicketValue);
+--						EnvironmentElement => reference (patient);
+--						EnvironmentElementStates => (reference(AtRisk), reference(Overdosed));
+					Constraints => ([
+						Name => "Don't overdose the patient";
+						Description => "The pump shouldn't run if the patient shows signs of an overdose";
+						ErrorType => reference(MissedAlarm);
+					]);
+				]);
+			]);
+		]);
 end PulseOx_Forwarding_System;

@@ -1,6 +1,6 @@
 package PulseOx_Forwarding_Display
 public
-with PulseOx_Forwarding_Types, MAP_Properties, PulseOx_Forwarding_Errors;
+with PulseOx_Forwarding_Types, MAP_Properties, PulseOx_Forwarding_Properties;
 
 	process PulseOx_Display_Process
 	features
@@ -8,14 +8,11 @@ with PulseOx_Forwarding_Types, MAP_Properties, PulseOx_Forwarding_Errors;
 		DerivedAlarm : in event port;
 	properties
 		MAP_Properties::Process_Type => display;
+		MAP_Properties::Component_Type => actuator;
 	annex EMV2 {** 
  		use types PulseOx_Forwarding_Errors;
 		error propagations
-			DerivedAlarm : in propagation {MissedAlarm};
-			SpO2 : in propagation {SpO2ValueHigh};
-			flows
-				MissedAlarm : error sink DerivedAlarm {MissedAlarm};
-				BadInfoDisplayed : error sink SpO2 {SpO2ValueHigh};
+			DerivedAlarm : in propagation {MissedAlarm, BogusAlarm};
 		end propagations;
 	**};
 	end PulseOx_Display_Process;
@@ -27,6 +24,13 @@ with PulseOx_Forwarding_Types, MAP_Properties, PulseOx_Forwarding_Errors;
 	connections
 		incoming_spo2 : port SpO2 -> UpdateSpO2Thread.SpO2;
 		incoming_alarm : port DerivedAlarm -> HandleAlarmThread.Alarm;
+	annex EMV2 {**
+		use types PulseOx_Forwarding_Errors;
+		error propagations
+			flows
+				AlarmOmission : error sink DerivedAlarm {MissedAlarm};
+		end propagations;
+	**};
 	end PulseOx_Display_Process.imp;
 	
 	thread UpdateSpO2Thread

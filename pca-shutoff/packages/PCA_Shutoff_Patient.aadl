@@ -1,19 +1,22 @@
 package PCA_Shutoff_Patient
 public
-	with MAP_Properties;
+	with MAP_Properties, PCA_Shutoff_Types;
 	abstract PCA_Shutoff_Patient
-	features
-		vein : in feature;
-		fingerclip : out feature;
-		exhalation : out feature;
-	modes
-		healthy : mode;
-		risk : mode;
-		overdosed : mode;
-	properties
-		MAP_Properties::Component_Type => controlled_process;
+		features
+			vein: in feature;
+			fingerclip: out feature;
+			exhalation: out feature;
+		modes
+			healthy: mode;
+			risk: mode;
+			overdosed: mode;
+		properties
+			MAP_Properties::Component_Type => controlled_process;
 	end PCA_Shutoff_Patient;
-	
+
 	abstract implementation PCA_Shutoff_Patient.imp
+		subcomponents
+			health_status: data PCA_Shutoff_Types::PumpCmd;
 	end PCA_Shutoff_Patient.imp;
+
 end PCA_Shutoff_Patient;
