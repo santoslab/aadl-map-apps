@@ -19,13 +19,14 @@ Abbreviation : type record (
 -- =================================== --
 
 Accident_Level : type record (
-	Level : aadlinteger;
+	Name : aadlstring;
 	Description: aadlstring;
 	Explanations : list of aadlstring;
 	Accidents : list of MAP_Error_Properties::Accident;
 );
 
 Accident : type record (
+	Name : aadlstring;
 	Description : aadlstring;
 	Explanations : list of aadlstring;
 	Hazards : list of MAP_Error_Properties::Hazard;
@@ -36,9 +37,7 @@ Hazard: type record (
 	Description : aadlstring;
 	HazardousFactor : aadlstring;
 	SystemElement : reference (device, process);
-	SystemElementState : reference({emv2}** error type, {emv2}** error type set);
 	EnvironmentElement : reference (abstract);
-	EnvironmentElementStates : list of reference({emv2}** error type);
 	Explanations : list of aadlstring;
 	Constraints : list of MAP_Error_Properties::Constraint;
 );
@@ -47,21 +46,19 @@ Constraint: type record (
 	Name : aadlstring;
 	Description : aadlstring;
 	ErrorType : reference({emv2}** error type);
+	Explanations : list of aadlstring;
 );
 
-Fundamentals : list of MAP_Error_Properties::Accident_Level applies to (all);
+Fundamentals : record (
+	Fundamentals : list of MAP_Error_Properties::Accident_Level;
+	Explanations : list of aadlstring;
+) applies to (abstract);
 
-ProcessVariable : type record (
-	Name : aadlstring;
-	Values : list of reference(mode);	
-);
+ProcessVariable : aadlboolean applies to (data);
 
-ProcessModel : list of MAP_Error_Properties::ProcessVariable applies to (all);
-
--- Tested
 ExternallyCausedDanger : record (
-	ControlledProcessState : reference(data);
 	ProcessVariableValue : reference(data);
+	ProcessVariableConstraint : aadlstring;
 	Explanation : aadlstring;
 ) applies to (all);
 
@@ -72,7 +69,6 @@ ErrorHandlingApproachType : type enumeration (Rollback, Rollforward, Compensatio
 -- Partially tested, no DesignTimeHandling or ControlledProcessState coverage
 InternallyCausedDanger : record (
 	ControlledProcessState : reference({emv2}** error type);
---	DesignTimeHandling : list of MAP_Error_Properties::Compensation;
 	Explanation : aadlstring;
 ) applies to (all);
 
@@ -88,11 +84,13 @@ RuntimeErrorHandling : record (
 	Explanation : aadlstring;
 ) applies to (all);
 
+-- Tested
 DesignTimeFaultDetection : record (
 	FaultDetectionApproach : enumeration (StaticAnalysis, TheoremProving, ModelChecking, SymbolicExecution, Testing);
 	Explanation : aadlstring;
 ) applies to (all);
 
+-- Tested
 RuntimeFaultHandling : record (
 	FaultHandlingApproach : enumeration (Diagnosis, Isolation, Reconfiguration, Reinitialization);
 	ErrorHandlingApproach : MAP_Error_Properties::ErrorHandlingApproachType;
@@ -104,6 +102,7 @@ EliminatedFaults : record (
 	FaultTypes : list of reference({emv2}** error type);
 	Explanation : aadlstring;	
 ) applies to (all);
+
 
 
 end MAP_Error_Properties;
