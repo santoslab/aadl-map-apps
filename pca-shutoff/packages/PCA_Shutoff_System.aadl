@@ -58,7 +58,8 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 --			pulseox_dc : error source spo2_logic {InadvertentPumpNormally};
 --		end connection;
 		properties	
-			MAP_Error_Properties::Fundamentals => ([
+			MAP_Error_Properties::Fundamentals => [
+				Fundamentals => ([
 				Name => "DeathOrInjury";
 				Description => "Death or serious injury to a human";
 				Accidents => ([
@@ -77,7 +78,8 @@ with PulseOx_Interface, PCAPump_Interface, PCA_Shutoff_Logic,
 						]);
 					]);
 				]);
-			]) applies to patient;
+				]);
+			] applies to patient;
 	**};
 	end PCA_Shutoff_System.imp;
 
